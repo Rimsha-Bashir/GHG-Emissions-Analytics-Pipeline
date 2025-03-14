@@ -39,7 +39,7 @@ This project uses the  CO2 and Greenhouse Gas Emissions dataset provided by [Our
 Special thanks to them for making this valuable data publicly available. You can explore more such dataset on their [website](https://ourworldindata.org/). 
 
 #### Citation
-Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas Emissions” Published online at OurWorldinData.org. Retrieved from: ['https://ourworldindata.org/co2-and-greenhouse-gas-emissions']('https://ourworldindata.org/co2-and-greenhouse-gas-emissions') [Online Resource]
+Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas Emissions” Published online at OurWorldinData.org. Retrieved from: ['https://ourworldindata.org/co2-and-greenhouse-gas-emissions'](https://ourworldindata.org/co2-and-greenhouse-gas-emissions) [Online Resource]
 
 ## Tech Stack 
 
