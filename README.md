@@ -57,4 +57,4 @@ Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas 
 
 ## Pipeline Architecture
 
-![Arch Diagram](./images/arch_ghg.drawio.svg)
+![Arch Diagram](./images/ghg_arch.drawio.svg)
