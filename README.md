@@ -45,5 +45,8 @@ Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas 
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 <img src="./images/GHGCO23.jpg" width="119"></img>
+<div style="background-color: white; display: inline-block; padding: 3px 4px;">
+  <img src="./images/Kestra.full.logo.dark.png" width="90" alt="Kestra Logo">
+</div>
 
 ## Pipeline Architecture
