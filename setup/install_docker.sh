@@ -10,7 +10,7 @@ sudo apt-get install -y docker.io
 sudo systemctl enable docker
 
 # Start Docker service
-sudo systemctl start docker
+sudo systemctl restart docker
 
 # Verify Docker is running
 sudo systemctl status docker
@@ -25,7 +25,6 @@ fi
 
 # Add the current user to the docker group
 sudo gpasswd -a "$USER" docker
-sudo service docker restart
 echo "Remember to logout later so your group membership is re-evaluated."
 
 echo "Installing Docker Compose..."
