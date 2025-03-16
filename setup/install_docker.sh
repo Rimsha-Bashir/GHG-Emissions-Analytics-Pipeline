@@ -7,12 +7,15 @@ echo "Installing Docker and setting up..."
 sudo apt-get install -y docker.io
 
 # For Docker to start on booting the VM
+echo "Docker to start on booting the VM..."
 sudo systemctl enable docker
 
 # Start Docker service
+echo "Start Docker service...."
 sudo systemctl restart docker
 
 # Verify Docker is running
+echo "Docker is running..."
 sudo systemctl status docker
 
 # Check if the 'docker' group exists to allow running Docker without sudo
