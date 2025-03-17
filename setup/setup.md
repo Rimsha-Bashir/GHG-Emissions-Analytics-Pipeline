@@ -19,5 +19,8 @@
 9. Clone this repo using http in the VM. 
 
 
-10. mkdir bin and run setup.sh bash file... to install all  dependencies inside VM>bin/ 
+10. go to git repo, pull from origin main, 
+11. then, chmmod +x setup.sh 
+12. run setup.sh bash file... to install all dependencies inside VM>bin/. Remember to logout then login for some changes to be updated!
+
 

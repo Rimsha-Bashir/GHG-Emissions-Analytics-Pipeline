@@ -14,10 +14,6 @@ sudo systemctl enable docker
 echo "Start Docker service...."
 sudo systemctl restart docker
 
-# Verify Docker is running
-echo "Docker is running..."
-sudo systemctl status docker
-
 # Check if the 'docker' group exists to allow running Docker without sudo
 if ! getent group docker >/dev/null; then
     echo "Creating the 'docker' group..."

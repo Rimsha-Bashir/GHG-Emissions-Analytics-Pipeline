@@ -6,7 +6,7 @@ CURR_DIR="$(dirname "$0")"
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y curl wget unzip git
 
-echo "Creating bin/ dir..."
+echo "Creating bin/ dir to install dependencies..."
 INSTALL_DIR="$HOME/bin" # dir where all applications will be installed
 mkdir -p "$INSTALL_DIR"
 
@@ -22,11 +22,11 @@ bash "${CURR_DIR}/install_anaconda.sh"
 echo "Installing Docker..."
 bash "${CURR_DIR}/install_docker.sh"
 
-# Installing Terraform 
-# echo "Installing Terraform..."
-# bash "${CURR_DIR}/install_terraform.sh"
-# 
-# 
+Installing Terraform 
+echo "Installing Terraform..."
+bash "${CURR_DIR}/install_terraform.sh"
+
+
 # # Installing Spark 
 # echo "Installing Spark..."
 # bash "${CURR_DIR}/install_spark.sh"
