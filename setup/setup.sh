@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source .env
 CURR_DIR="$(dirname "$0")"
 
 # Update and install required packages
@@ -27,9 +28,13 @@ echo "Installing Terraform..."
 bash "${CURR_DIR}/install_terraform.sh"
 
 
-# # Installing Spark 
-# echo "Installing Spark..."
-# bash "${CURR_DIR}/install_spark.sh"
-# 
-# 
-# echo "Setup completed successfully! 🎉"
+# Installing Spark 
+echo "Installing Spark..."
+bash "${CURR_DIR}/install_spark.sh"
+
+# Set service account credentials
+echo "Setting service account credentials..."
+bash "${CURR_DIR}/set_credentials.sh"
+
+
+echo "Setup completed successfully! 🎉"
