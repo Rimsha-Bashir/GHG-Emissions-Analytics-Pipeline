@@ -3,7 +3,7 @@
 3. Create service account `ghg-user`. Give the below permissions:
     ![alt text](../images/permissions.png)
 4. Create SSH key (if you don't have it yet), add it to GCP. In order to login to the VM. 
-5. Enable compute engine API, BigQuery API, IAM API. 
+5. Enable compute engine API, BigQuery API, IAM API, dataproc api. 
 6. Create a vm - ghg-capstone-vm with the below specifications:
     - Machine Configs: 
         - instance name: `ghg-capstone-vm`

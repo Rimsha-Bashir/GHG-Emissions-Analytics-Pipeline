@@ -17,4 +17,4 @@ echo 'export PATH="$HOME/bin/anaconda3/bin:$PATH"' >> "$HOME/.bashrc"
 # Reload .bashrc to update the PATH
 source "$HOME/.bashrc"
 
-echo "Anaconda has been installed in $HOME/bin/anaconda3"
+echo "Anaconda has been installed in $HOME/bin/anaconda3! ✅"
