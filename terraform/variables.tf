@@ -1,6 +1,6 @@
 variable "project" {
   description = "GHG GCP Project name"
-  default     = "coral-velocity-451115-d9"
+  default     = "ghg-capstone"
 }
 
 variable "location" {
