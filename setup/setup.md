@@ -70,4 +70,10 @@ Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceac
 15. Login to your VM via ssh and go to the terraform dir. Run terraform init, terraform plan and terraform apply. 
 
 
-16. Running kestra... modify email in .env to a valid email id. 
+16. Running kestra... modify email and pass in .env to a valid email id and your chosen password to login to kestra UI and run kestra_api commands. 
+
+17. Run the sh file to create and execute Kestra flows. 
+
+Command to run the flow 1 - curl -v -X POST "http://34.78.176.130:8080/api/v1/flows" -H "Content-Type: application/json" -u "bashirrimsha22@gmail.com:kestra" --data-binary @created-by-api.json
+
+Command to execute the flow 1 - curl -X POST "http://34.78.176.130:8080/api/v1/executions/company.gk/created_by_api" 
