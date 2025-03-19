@@ -1,0 +1,12 @@
+{
+    "id": "created_by_api",
+    "namespace": "company.gk",
+    "tasks": [
+      {
+        "id": "hello",
+        "type": "io.kestra.core.tasks.debugs.Return",
+        "format": "Hello, Kestra!"
+      }
+    ]
+}
+  
