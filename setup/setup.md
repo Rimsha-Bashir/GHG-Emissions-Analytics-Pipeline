@@ -15,7 +15,7 @@
 
     Copy the generated public key to google cloud: (Compute Engine -> Metadata -> SSH Keys -> Add ssh key) and copy all from file <sshkey_name>.pub. If you already have SSH key to work with your GCP, you can reuse it.)
 
-5. Enable compute engine API, BigQuery API, IAM API, Dataproc API. 
+5. Enable compute engine API, BigQuery API, IAM API, Dataproc API,  Service Networking API. 
 6. Create a vm - `ghg-capstone-vm` with the below specifications:
     - Machine Configs: 
         - instance name: `ghg-capstone-vm`
@@ -27,6 +27,12 @@
         - size: `30GB`
     - Identity & API access:
         - select `scope`-`allow default access` and `firewall`-`allow https traffic`
+
+7. Create a firewall rule to allow access to Kestra UI at port 8080. 
+
+    ![alt text](../images/firewall_rule.png)
+
+    Click on `Create`
 
 7. Modify/update config file if you already have it setup to add a new Host `ghg-capstone-vm`, like this - 
 ```
