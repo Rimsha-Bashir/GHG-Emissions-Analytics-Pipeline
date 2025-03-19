@@ -69,3 +69,5 @@ Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceac
 
 15. Login to your VM via ssh and go to the terraform dir. Run terraform init, terraform plan and terraform apply. 
 
+
+16. Running kestra... modify email in .env to a valid email id. 
