@@ -3,7 +3,7 @@
 # KEY_PATH - full path of the SERVICE ACCOUNT CREDENTIAL file. 
 # To ensure that credentials are set up automatically every time you start a new shell session on your VM.
 
-source .env
+source GHG-Emissions-Analytics-Pipeline/.env
 
 # Add the environment variable GOOGLE_APPLICATION_CREDENTIALS to the .bashrc file
 echo "export GOOGLE_APPLICATION_CREDENTIALS=${KEY_PATH}" >> ~/.bashrc
