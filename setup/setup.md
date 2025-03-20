@@ -84,12 +84,19 @@ terraform apply.
 
 17. Run the sh file to create and execute Kestra flows. 
 
-Command to run the flow 1 - curl -v -X POST "http://34.78.176.130:8080/api/v1/flows" -H "Content-Type: application/json" -u "bashirrimsha22@gmail.com:kestra" --data-binary @created-by-api.json
+Command to run the flow 1 - `curl -v -X POST "http://34.78.176.130:8080/api/v1/flows" -H "Content-Type: application/x-yaml" -u "bashirrimsha22@gmail.com:kestra" --data-binary @created-by-api.yml`
 
-Command to execute the flow 1 - curl -X POST "http://34.78.176.130:8080/api/v1/executions/company.gk/created_by_api" 
+Command to execute the flow 1 - `curl -X POST "http://34.78.176.130:8080/api/v1/executions/company.gk/created_by_api"` 
 
 
 #Note -region, location, project_id defined in env. 
 
 run api command to add key-value pair for `GCP_CREDS`
+
+
+curl -v -X PUT "http://34.38.225.163:8080/api/v1/namespaces/ghg_project/kv/GCP_PROJECT_ID" \
+  -H "Content-Type: application/json" \
+  -u "bashirrimsha22@gmail.com:kestra" \
+  --data-binary @"$HOME/.gc/ghg-creds.json"
+
 
