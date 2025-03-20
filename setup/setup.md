@@ -43,15 +43,8 @@
         User <username> 
         IdentityFile ~/.ssh/<sshkey_name>
 ```
-8. Login to your VM locally by running `ssh ghg-capstone-vm`. 
-9. Clone this repo using http in the VM!
 
-10. go to git repo, pull from origin main, 
-11. then, chmmod +x setup.sh 
-12. run setup.sh bash file... to install all dependencies inside VM>bin/. **Remember to logout then login for some changes to be updated!**
-
-
-13. Add service account keys to VM (locally) - It's convenient to make sure your json file is saved in a Home dir location.
+13. Add service account keys to VM (locally from local terminal) - It's convenient to make sure your json file is saved in a Home dir location.
 For example, create `.gc` in your home dir, add `ghg-creds.json` there...  then `cd` to that folder, do `sftp ghg-capstone-vm` and `mkdir .gc`, `cd .gc` then `put ghg-creds.json`.  
 
 Can also do this - locally. 
@@ -60,6 +53,12 @@ rimsh@LAPTOP-J29FGN6B MINGW64 ~
 $ scp ~/.gc/ghg-creds.json rimsha@de-zoomcamp:~/.gc/
 ghg-creds.json                                                                            100% 2346    72.6KB/s   00:00
 ```
+8. Login to your VM locally by running `ssh ghg-capstone-vm`/ or run Remote-SSH in your vscode. 
+9. Clone this repo using http in the VM
+
+10. go to git repo, pull from origin main, 
+11. then, chmmod +x setup.sh 
+12. run setup.sh bash file... to install all dependencies inside VM>bin/. **Remember to logout then login for some changes to be updated!**
 
 14. Configure gcloud with your service account .json file (Make sure to add the correct path in the .env file)
 ```bash
