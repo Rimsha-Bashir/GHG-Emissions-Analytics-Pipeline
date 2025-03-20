@@ -67,8 +67,17 @@ rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ export GOOGLE_APPLICATION
 rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ gcloud auth activate-service-account --key-file=$KEY_FILE_PATH
 Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceaccount.com]
 ```
+**done using set_credentials.sh don't have to do again.**
 
-15. Login to your VM via ssh and go to the terraform dir. Run terraform init, terraform plan and terraform apply. 
+15. Login to your VM via ssh / Remote-SSH and go to the terraform dir. 
+
+Run 
+terraform init
+then 
+terraform plan and 
+then
+`export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)`  > to export env variables
+terraform apply. 
 
 
 16. Running kestra... modify email and pass in .env to a valid email id and your chosen password to login to kestra UI and run kestra_api commands. 
