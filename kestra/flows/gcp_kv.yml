@@ -14,6 +14,12 @@ tasks:
     kvType: STRING
     value: europe-west1 #TODO - Add your region
 
+  - id: gcp_creds
+    type: io.kestra.plugin.core.kv.Set
+    key: gcp_creds
+    kvType: JSON
+    value: ${{ secrets.GCP_CREDS }}
+
   - id: gcp_bucket_name
     type: io.kestra.plugin.core.kv.Set
     key: GCP_BUCKET_NAME
