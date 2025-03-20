@@ -90,3 +90,6 @@ Command to execute the flow 1 - curl -X POST "http://34.78.176.130:8080/api/v1/e
 
 
 #Note -region, location, project_id defined in env. 
+
+run api command to add key-value pair for `GCP_CREDS`
+
