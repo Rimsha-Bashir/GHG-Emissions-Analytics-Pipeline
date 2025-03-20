@@ -2,9 +2,11 @@
 2. Install Google Cloud SDK.
 3. Create service account `ghg-user`. Give the below permissions:
     ![alt text](../images/permissions.png)
+   And create a Service Account json key. We'll name it `ghg-creds.json`
+
 4. Create SSH key (if you don't have it yet), and add it to GCP. In order to login to the VM.
 
-    (Generate SSH keys to login to VM instances (if you don't have it yet). This will generate a 2048 bit rsa ssh keypair, named gcp and a comment of <username>. The comment (<username>) will be the user on VM :
+    (Generate SSH keys to login to VM instances (if you don't have it yet). This will generate an ssh keypair, named gcp and a comment of <username>. The comment (<username>) will be the user on VM :
 
     In terminal:
 
@@ -77,3 +79,6 @@ Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceac
 Command to run the flow 1 - curl -v -X POST "http://34.78.176.130:8080/api/v1/flows" -H "Content-Type: application/json" -u "bashirrimsha22@gmail.com:kestra" --data-binary @created-by-api.json
 
 Command to execute the flow 1 - curl -X POST "http://34.78.176.130:8080/api/v1/executions/company.gk/created_by_api" 
+
+
+#Note -region, location, project_id defined in env. 
