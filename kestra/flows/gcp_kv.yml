@@ -18,7 +18,7 @@ tasks:
     type: io.kestra.plugin.core.kv.Set
     key: gcp_creds
     kvType: JSON
-    value: ${{ secrets.GCP_CREDS }}
+    value: "{{ env.GOOGLE_APPLICATION_CREDENTIALS }}"
 
   - id: gcp_bucket_name
     type: io.kestra.plugin.core.kv.Set
