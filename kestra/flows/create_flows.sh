@@ -1,4 +1,41 @@
 #!/bin/bash
 
-cd ../.. && source .env
-curl -v -X POST "http://34.78.176.130:8080/api/v1/flows" -H "Content-Type: application/x-yaml" -u "bashirrimsha22@gmail.com:kestra" --data-binary @created-by-api.yml
+# Source environment variables from .env file
+source .env
+
+# Set the URL for the Kestra API
+KESRA_URL="http://${VM_IP}:${KESTRA_PORT}/api/v1/flows"
+
+# Post the flow to Kestra
+echo "Creating the flow in Kestra..."
+curl -v -X POST "$KESRA_URL" \
+    -H "Content-Type: application/x-yaml" \
+    -u "${KESRA_EMAIL}:kestra" \
+    --data-binary @gcp_kv.yml
+
+# Check if the flow creation was successful
+if [ $? -eq 0 ]; then
+    echo "Flow created successfully."
+else
+    echo "Error creating the flow."
+    exit 1
+fi
+
+# Set a Key-Value pair (for example, GCP_CREDS) in Kestra
+# The JSON file for the key-value pair should be passed as a parameter
+GCP_CREDS_FILE="~/.gc/ghg-creds.json"
+
+echo "Setting Key-Value pair in Kestra..."
+
+curl -v -X PUT "${KESRA_URL}/kv/GCP_CREDS" \
+    -H "Content-Type: application/json" \
+    -u "${KESRA_EMAIL}:kestra" \
+    --data-binary @"$GCP_CREDS_FILE"
+
+# Check if the KV pair was set successfully
+if [ $? -eq 0 ]; then
+    echo "Key-Value pair set successfully."
+else
+    echo "Error setting Key-Value pair."
+    exit 1
+fi
