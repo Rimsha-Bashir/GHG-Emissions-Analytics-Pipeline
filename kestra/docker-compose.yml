@@ -40,7 +40,7 @@ services:
           server:
             basicAuth:
               enabled: true
-              username: bashirrimsha22@gmail.com
+              username: "${KESTRA_EMAIL}"
               password: kestra
           repository:
             type: postgres
