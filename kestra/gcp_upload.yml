@@ -3,7 +3,7 @@ namespace: ghg_project
 description: "Scheduled job to download OWID CO2 data and upload it to GCS"
 
 variables:
-  file: "ghg_data_{{trigger.date | date('yyyy-MM')}}.csv"
+  file: "ghg_data_{{trigger.date | date('yyyy')}}.csv"
   gcs_file: "gs://{{kv('GCP_BUCKET_NAME')}}/{{vars.file}}"
 
 tasks:
@@ -14,7 +14,7 @@ tasks:
     taskRunner:
       type: io.kestra.plugin.core.runner.Process
     commands:
-      - wget -q -O "{{vars.file}}" "https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.csv"
+      - wget -q -O "{{render(vars.file)}}" "https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.csv"
 
   - id: upload_to_gcs
     type: io.kestra.plugin.gcp.gcs.Upload
