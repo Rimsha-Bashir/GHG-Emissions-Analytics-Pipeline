@@ -4,7 +4,7 @@
 source .env
 
 # Post the flow to Kestra
-echo "Creating the gcp_kv.yml flow in Kestra..."
+echo "Creating the gcp_upload.yml flow in Kestra..."
 curl -v POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/flows" \
     -H "Content-Type: application/x-yaml" \
     -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
