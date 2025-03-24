@@ -25,7 +25,7 @@ tasks:
   - id: bigquery_ghg_data
     type: io.kestra.plugin.gcp.bigquery.Query
     sql: |
-      CREATE OR REPLACE EXTERNAL TABLE `{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.external_ghg_data` 
+      CREATE OR REPLACE EXTERNAL TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.external_ghg_data` 
       OPTIONS (
         format = 'CSV',
         uris = ['gs://{{kv('GCP_BUCKET_NAME')}}/ghg_data_*.csv']
