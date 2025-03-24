@@ -3,20 +3,20 @@
 CURR_DIR="$(dirname "$0")"
 chmod +x "${CURR_DIR}"/execute_*.sh
 
-echo "Executing gcp_key flow in Kestra..."
+echo "\nGCP KEYS SETUP IN KESTRA..."
 if bash "${CURR_DIR}/execute_gcp_kv.sh"; then
-  echo "-------------------gcp_key flow executed successfully! ✅ "
+  echo "\n-------------------gcp_key flow executed successfully! ✅ "
 else
-  echo "---------!!! Error: gcp_key flow execution failed!" >&2
+  echo "\n---------!!! Error: gcp_key flow execution failed!" >&2
   exit 1
 fi
 
-echo "Executing gcp_upload flow in Kestra..."
+echo "\nDATA INGESTION INTO GCS BUCKET AND BIGQUERY..."
 if bash "${CURR_DIR}/execute_gcp_upload.sh"; then
-  echo "-------------------gcp_upload flow executed successfully! ✅ "
+  echo "\n-------------------gcp_upload flow executed successfully! ✅ "
 else
-  echo "---------!!!Error: gcp_upload flow execution failed!" >&2
+  echo "\n---------!!!Error: gcp_upload flow execution failed!" >&2
   exit 1
 fi
 
-echo "*****All flows executed successfully!*****"
+echo "\n*****All flows executed successfully!*****"

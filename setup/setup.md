@@ -94,6 +94,16 @@ NAMESPACE="ghg_project"
 
 17. Run the sh file to create and execute Kestra flows. 
 
+```bash
+chmod +x execute_all_flows.sh 
+./execute_all_flows.sh
+```
+
+
+
+
+
+<details>
 Command to run the flow 1 - `curl -v -X POST "http://34.78.176.130:8080/api/v1/flows" -H "Content-Type: application/x-yaml" -u "bashirrimsha22@gmail.com:kestra" --data-binary @created-by-api.yml`
 
 Command to execute the flow 1 - `curl -X POST "http://34.78.176.130:8080/api/v1/executions/company.gk/created_by_api"` 
@@ -114,11 +124,9 @@ To verify:
 curl -X GET "http://34.78.176.130:8080/api/v1/namespaces/your_namespace/kv/GCP_CREDS" \
      -u "bashirrimsha22@gmail.com:kestra"
 
-
-do chmod +x create_flows.sh then run the file. 
-
-
 curl -v POST "http://34.38.225.163:8080/api/v1/flows" \
     -H "Content-Type: application/x-yaml" \
     -u "bashirrimsha22@gmail.com:kestra" \
     --data-binary @gcp_kv.yml
+
+</details>

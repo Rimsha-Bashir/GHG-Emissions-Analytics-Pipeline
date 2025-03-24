@@ -4,7 +4,7 @@
 source .env
 
 # Post the flow to Kestra
-echo "Creating the gcp_kv.yml flow in Kestra..."
+echo "\nCreating the gcp_kv.yml flow in Kestra..."
 curl -v POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/flows" \
     -H "Content-Type: application/x-yaml" \
     -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
@@ -12,23 +12,23 @@ curl -v POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/flows" \
 
 # Check if the flow creation was successful
 if [ $? -eq 0 ]; then
-    echo "----------------gcp_kv.yml created successfully---------------------"
+    echo "\n----------------gcp_kv.yml created successfully---------------------"
 else
-    echo "!!!------Error creating the flow gcp_kv.yml."
+    echo "\n!!!------Error creating the flow gcp_kv.yml."
     exit 1
 fi
 
 
 
-echo "Executing the flow gcp_kv.yml in Kestra..."
+echo "\nExecuting the flow gcp_kv.yml in Kestra..."
 curl -X POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/executions/${NAMESPACE}/gcp_kv" \
     -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}"
 
 # Check if the flow execution was successful
 if [ $? -eq 0 ]; then
-    echo "----------------gcp_kv.yml executed successfully----------------"
+    echo "\n----------------gcp_kv.yml executed successfully----------------"
 else
-    echo "!!!------Error executing the flow gcp_kv.yml"
+    echo "\n!!!------Error executing the flow gcp_kv.yml"
     exit 1
 fi
 
