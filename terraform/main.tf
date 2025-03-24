@@ -29,17 +29,21 @@ resource "google_storage_bucket" "ghg_bucket" {
 
 resource "google_bigquery_dataset" "staging" {
   dataset_id = var.bq_dataset_staging
+  location      = var.location
+
 }
 
 resource "google_bigquery_dataset" "analytics" {
   dataset_id = var.bq_dataset_analytics
+  location      = var.location
+
 }
 
 resource "google_dataproc_cluster" "dataproc-cluster" {
   name    = var.spark_cluster_name
   project = var.project
   region  = var.region
-
+  
   cluster_config {
 
     master_config {

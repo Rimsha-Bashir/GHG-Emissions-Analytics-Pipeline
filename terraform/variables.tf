@@ -1,15 +1,19 @@
 variable "project" {
   description = "GHG GCP Project name"
   type = string
+  default = "ghg-capstone"
 }
 
 variable "location" {
   description = "GHG GCP provider location"
   type = string
+  default = "EU"
 }
+
 variable "region" {
   description = "GHG GCP provider region"
   type = string
+  default = "europe-west1"
 
 }
 variable "bq_dataset_staging" {
