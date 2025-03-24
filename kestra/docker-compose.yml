@@ -41,7 +41,7 @@ services:
             basicAuth:
               enabled: true
               username: "${KESTRA_EMAIL}"
-              password: kestra
+              password: "${KESTRA_PASSWORD}"
           repository:
             type: postgres
           storage:

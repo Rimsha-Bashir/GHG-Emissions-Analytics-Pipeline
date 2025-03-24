@@ -4,13 +4,13 @@
 source .env
 
 # Set the URL for the Kestra API
-KESRA_URL="http://${VM_IP}:${KESTRA_PORT}/api/v1/flows"
+KESTRA_URL="http://${VM_IP}:${KESTRA_PORT}/api/v1/flows"
 
 # Post the flow to Kestra
 echo "Creating the flow in Kestra..."
-curl -v -X POST "$KESRA_URL" \
+curl -v -X POST "$KESTRA_URL" \
     -H "Content-Type: application/x-yaml" \
-    -u "${KESRA_EMAIL}:kestra" \
+    -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
     --data-binary @gcp_kv.yml
 
 # Check if the flow creation was successful
@@ -27,9 +27,9 @@ GCP_CREDS_FILE="~/.gc/ghg-creds.json"
 
 echo "Setting Key-Value pair in Kestra..."
 
-curl -v -X PUT "${KESRA_URL}/kv/GCP_CREDS" \
+curl -v -X PUT "${KESTRA_URL}/kv/GCP_CREDS" \
     -H "Content-Type: application/json" \
-    -u "${KESRA_EMAIL}:kestra" \
+    -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
     --data-binary @"$GCP_CREDS_FILE"
 
 # Check if the KV pair was set successfully
