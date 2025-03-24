@@ -12,7 +12,7 @@ tasks:
     type: io.kestra.plugin.core.kv.Set
     key: GCP_LOCATION
     kvType: STRING
-    value: europe-west1 #TODO - Add your region
+    value: EU #TODO - Add your region
 
   - id: gcp_bucket_name
     type: io.kestra.plugin.core.kv.Set
