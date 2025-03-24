@@ -5,6 +5,7 @@ description: "Scheduled job to download OWID CO2 data and upload it to GCS"
 variables:
   file: "ghg_data_{{execution.startDate | date('yyyy')}}.csv"
   gcs_file: "gs://{{kv('GCP_BUCKET_NAME')}}/{{vars.file}}"
+  data: "{{outputs.extract.outputFiles['ghg_data_' ~ (execution.startDate | date('yyyy')) ~ '.csv']}}"
 
 tasks:
   - id: extract
@@ -18,7 +19,7 @@ tasks:
 
   - id: upload_to_gcs
     type: io.kestra.plugin.gcp.gcs.Upload
-    from: "{{render(vars.file)}}"
+    from: "{{render(vars.data)}}"
     to: "{{render(vars.gcs_file)}}"
   
   - id: bigquery_ghg_data
