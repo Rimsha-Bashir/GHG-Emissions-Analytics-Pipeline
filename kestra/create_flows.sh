@@ -20,15 +20,15 @@ fi
 
 # Set a Key-Value pair (for example, GCP_CREDS) in Kestra
 # The JSON file for the key-value pair should be passed as a parameter
-GCP_CREDS_FILE="~/.gc/ghg-creds.json"
+GCP_CREDS_FILE="$HOME/.gc/ghg-creds.json"  # Correct the file path
 
 echo "Setting Key-Value pair in Kestra..."
 
-curl -v PUT "http://$VM_IP:$KESTRA_PORT/api/v1/namespaces/$NAMESPACE/kv/GCP_CREDS" \
+# Use PUT method to set the key-value pair
+curl -v -X PUT "http://$VM_IP:$KESTRA_PORT/api/v1/namespaces/$NAMESPACE/kv/GCP_CREDS" \
      -H "Content-Type: application/json" \
      -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
-     --data-binary @"$GCP_CREDS_FILE"
-
+     --data-binary @"$GCP_CREDS_FILE"  # Correct the file path
 
 # Check if the KV pair was set successfully
 if [ $? -eq 0 ]; then
