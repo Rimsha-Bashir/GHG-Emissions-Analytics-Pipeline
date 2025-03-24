@@ -1,0 +1,39 @@
+id: gcp_upload
+namespace: ghg_project
+description: "Scheduled job to download OWID CO2 data and upload it to GCS"
+
+variables:
+  file: "ghg_data_{{trigger.date | date('yyyy-MM')}}.csv"
+  gcs_file: "gs://{{kv('GCP_BUCKET_NAME')}}/{{vars.file}}"
+
+tasks:
+  - id: extract
+    type: io.kestra.plugin.scripts.shell.Commands
+    outputFiles:
+      - "*.csv"
+    taskRunner:
+      type: io.kestra.plugin.core.runner.Process
+    commands:
+      - wget -q -O "{{vars.file}}" "https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.csv"
+
+  - id: upload_to_gcs
+    type: io.kestra.plugin.gcp.gcs.Upload
+    from: "{{render(vars.file)}}"
+    to: "{{render(vars.gcs_file)}}"
+  
+  # - id: purge_files
+  #   type: io.kestra.plugin.core.storage.PurgeCurrentExecutionFiles
+  #   description: To avoid cluttering your storage, we will remove the downloaded files
+
+pluginDefaults:
+  - type: io.kestra.plugin.gcp
+    values:
+      serviceAccount: "{{kv('GCP_CREDS')}}"
+      projectId: "{{kv('GCP_PROJECT_ID')}}"
+      location: "{{kv('GCP_LOCATION')}}"
+      bucket: "{{kv('GCP_BUCKET_NAME')}}"
+
+triggers:
+  - id: yearly_schedule
+    type: io.kestra.plugin.core.trigger.Schedule
+    cron: "0 0 1 1 *"

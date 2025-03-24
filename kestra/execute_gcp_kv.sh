@@ -21,13 +21,14 @@ fi
 
 
 echo "Executing the flow gcp_kv.yml in Kestra..."
-EXECUTE_FLOW_RESPONSE=$(curl -s -X POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/executions/$NAMESPACE/gcp_kv")
+curl -X POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/executions/${NAMESPACE}/gcp_kv" \
+    -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}"
 
 # Check if the flow execution was successful
-if echo "$EXECUTE_FLOW_RESPONSE" | grep -q "status\":\"SUCCESS\""; then
-    echo "----------------gcp_kv.yml executed successfully--------------------"
+if [ $? -eq 0 ]; then
+    echo "----------------gcp_kv.yml executed successfully----------------"
 else
-    echo "!!!------Error executing the flow gcp_kv.yml."
+    echo "!!!------Error executing the flow gcp_kv.yml"
     exit 1
 fi
 
