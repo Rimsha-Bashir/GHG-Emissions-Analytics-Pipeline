@@ -84,6 +84,13 @@ terraform apply.
 
 
 16. Running kestra... modify email and pass in .env to a valid email id and your chosen password to login to kestra UI and run kestra_api commands. 
+```
+KESTRA_PORT="8080"
+VM_IP="external_ip_vm" #TODO
+KESTRA_EMAIL="youremail" #TODO
+KESTRA_PASSWORD="password" #TODO
+NAMESPACE="ghg_project"
+```
 
 17. Run the sh file to create and execute Kestra flows. 
 
@@ -109,3 +116,9 @@ curl -X GET "http://34.78.176.130:8080/api/v1/namespaces/your_namespace/kv/GCP_C
 
 
 do chmod +x create_flows.sh then run the file. 
+
+
+curl -v POST "http://34.38.225.163:8080/api/v1/flows" \
+    -H "Content-Type: application/x-yaml" \
+    -u "bashirrimsha22@gmail.com:kestra" \
+    --data-binary @gcp_kv.yml

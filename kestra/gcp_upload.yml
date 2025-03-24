@@ -21,9 +21,18 @@ tasks:
     from: "{{render(vars.file)}}"
     to: "{{render(vars.gcs_file)}}"
   
-  # - id: purge_files
-  #   type: io.kestra.plugin.core.storage.PurgeCurrentExecutionFiles
-  #   description: To avoid cluttering your storage, we will remove the downloaded files
+  - id: bigquery_ghg_data
+    type: io.kestra.plugin.gcp.bigquery.Query
+    sql: |
+      CREATE OR REPLACE EXTERNAL TABLE `{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.external_ghg_data` 
+      OPTIONS (
+        format = 'CSV',
+        uris = ['gs://{{kv('GCP_BUCKET_NAME')}}/ghg_data_*.csv']
+      );
+  
+  - id: purge_files
+    type: io.kestra.plugin.core.storage.PurgeCurrentExecutionFiles
+    description: To avoid cluttering your storage, we will remove the downloaded files
 
 pluginDefaults:
   - type: io.kestra.plugin.gcp
@@ -32,6 +41,7 @@ pluginDefaults:
       projectId: "{{kv('GCP_PROJECT_ID')}}"
       location: "{{kv('GCP_LOCATION')}}"
       bucket: "{{kv('GCP_BUCKET_NAME')}}"
+      dataset: "{{kv('GCP_DATASET')}}"
 
 triggers:
   - id: yearly_schedule
