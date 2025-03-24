@@ -2,7 +2,7 @@
 2. Install Google Cloud SDK.
 3. Create service account `ghg-user`. Give the below permissions:
     ![alt text](../images/permissions.png)
-   And create a Service Account json key. We'll name it `ghg-creds.json`
+   And create a Service Account json key. We'll name it `ghg-creds.json` (**Remember to the name the file the same**)
 
 4. Create SSH key (if you don't have it yet), and add it to GCP. In order to login to the VM.
 
@@ -53,6 +53,9 @@ rimsh@LAPTOP-J29FGN6B MINGW64 ~
 $ scp ~/.gc/ghg-creds.json rimsha@de-zoomcamp:~/.gc/
 ghg-creds.json                                                                            100% 2346    72.6KB/s   00:00
 ```
+
+**Make sure to put the file in the location ~/.gc/ghg-creds.json**
+
 8. Login to your VM locally by running `ssh ghg-capstone-vm`/ or run Remote-SSH in your vscode. 
 9. Clone this repo using http in the VM
 
@@ -63,8 +66,8 @@ ghg-creds.json                                                                  
 14. Configure gcloud with your service account .json file (Make sure to add the correct path in the .env file)
 ```bash
 rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ source .env
-rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ export GOOGLE_APPLICATION_CREDENTIALS=$KEY_FILE_PATH
-rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ gcloud auth activate-service-account --key-file=$KEY_FILE_PATH
+rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ export GOOGLE_APPLICATION_CREDENTIALS=$KEY_PATH
+rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ gcloud auth activate-service-account --key-file=$KEY_PATH
 Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceaccount.com]
 ```
 **done using set_credentials.sh don't have to do again.**
@@ -94,9 +97,14 @@ Command to execute the flow 1 - `curl -X POST "http://34.78.176.130:8080/api/v1/
 run api command to add key-value pair for `GCP_CREDS`
 
 
-curl -v -X PUT "http://34.38.225.163:8080/api/v1/namespaces/ghg_project/kv/GCP_PROJECT_ID" \
-  -H "Content-Type: application/json" \
-  -u "bashirrimsha22@gmail.com:kestra" \
-  --data-binary @"$HOME/.gc/ghg-creds.json"
+curl -v -X PUT "http://34.78.176.130:8080/api/v1/namespaces/your_namespace/kv/GCP_CREDS" \
+     -H "Content-Type: application/json" \
+     -u "bashirrimsha22@gmail.com:kestra" \
+     --data-binary @~/.gc/gcp_creds.json
+
+To verify:
+
+curl -X GET "http://34.78.176.130:8080/api/v1/namespaces/your_namespace/kv/GCP_CREDS" \
+     -u "bashirrimsha22@gmail.com:kestra"
 
 
