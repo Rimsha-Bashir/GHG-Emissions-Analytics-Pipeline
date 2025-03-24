@@ -108,3 +108,4 @@ curl -X GET "http://34.78.176.130:8080/api/v1/namespaces/your_namespace/kv/GCP_C
      -u "bashirrimsha22@gmail.com:kestra"
 
 
+do chmod +x create_flows.sh then run the file. 

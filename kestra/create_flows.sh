@@ -8,7 +8,7 @@ KESTRA_URL="http://${VM_IP}:${KESTRA_PORT}/api/v1/flows"
 
 # Post the flow to Kestra
 echo "Creating the flow in Kestra..."
-curl -v -X POST "$KESTRA_URL" \
+curl -v POST "$KESTRA_URL" \
     -H "Content-Type: application/x-yaml" \
     -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
     --data-binary @gcp_kv.yml
@@ -27,7 +27,7 @@ GCP_CREDS_FILE="~/.gc/ghg-creds.json"
 
 echo "Setting Key-Value pair in Kestra..."
 
-curl -v -X PUT "${KESTRA_URL}/kv/GCP_CREDS" \
+curl -v PUT "${KESTRA_URL}/kv/GCP_CREDS" \
     -H "Content-Type: application/json" \
     -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
     --data-binary @"$GCP_CREDS_FILE"
