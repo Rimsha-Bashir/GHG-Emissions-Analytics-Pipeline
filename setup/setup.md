@@ -143,7 +143,8 @@ SPARK
 
 Setup Spark in the VM 
 
+```bash
 cd $HOME
 mkdir lib
-cd lib
-gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar gcs-connector-hadoop3-2.2.5.jar
+gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
+```
