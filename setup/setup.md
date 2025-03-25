@@ -130,3 +130,13 @@ curl -v POST "http://34.38.225.163:8080/api/v1/flows" \
     --data-binary @gcp_kv.yml
 
 </details>
+
+
+SPARK
+
+Setup Spark in the VM 
+
+cd $HOME
+mkdir lib
+cd lib
+gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar gcs-connector-hadoop3-2.2.5.jar

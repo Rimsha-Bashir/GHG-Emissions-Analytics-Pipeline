@@ -35,5 +35,5 @@ variable "gcs_bucketname" {
 }
 variable "spark_cluster_name" {
   description = "GHG GCP Spark Cluster Name"
-  default     = "ghg-dataproc"
+  default     = "ghg-dataproc-v1"
 }
