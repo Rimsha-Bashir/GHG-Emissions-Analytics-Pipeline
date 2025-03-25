@@ -4,7 +4,7 @@ description: "Scheduled job to download OWID CO2 data and upload it to GCS"
 
 variables:
   file: "ghg_data_{{execution.startDate | date('yyyy')}}.csv"
-  gcs_file: "gs://{{kv('GCP_BUCKET_NAME')}}/{{vars.file}}"
+  gcs_file: "gs://{{kv('GCP_BUCKET_NAME')}}/raw/{{vars.file}}"
   data: "{{outputs.extract.outputFiles['ghg_data_' ~ (execution.startDate | date('yyyy')) ~ '.csv']}}"
 
 tasks:
