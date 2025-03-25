@@ -77,7 +77,7 @@ Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceac
 
 15. Login to your VM via ssh / Remote-SSH 
 
-15. Run `conda activate base` then do `pip intall requirements.txt`
+15. Run `conda init bash`, `source ~/.bashrc`, `conda activate bash` then do `pip intall requirements.txt`
 
 16. go to the terraform dir. 
 
