@@ -141,10 +141,11 @@ curl -v POST "http://34.38.225.163:8080/api/v1/flows" \
 
 SPARK
 
-Setup Spark in the VM 
+Setup Spark in the VM (In your VM bash)
 
 ```bash
-cd GHG-Emissions-Analytics-Pipeline
+cd GHG-Emissions-Analytics-Pipeline/scripts
 mkdir lib
 gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
 ```
+
