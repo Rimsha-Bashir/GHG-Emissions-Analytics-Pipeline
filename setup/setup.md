@@ -1,7 +1,9 @@
 1. Create a project in GCP - `ghg-capstone` 
 2. Install Google Cloud SDK.
 3. Create service account `ghg-user`. Give the below permissions:
-    ![alt text](../images/permissions.png)
+
+    ![alt text](../images/permissions.png) 
+
    And create a Service Account json key. We'll name it `ghg-creds.json` (**Remember to the name the file the same**)
 
 4. Create SSH key (if you don't have it yet), and add it to GCP. In order to login to the VM.
@@ -17,7 +19,7 @@
 
     Copy the generated public key to google cloud: (Compute Engine -> Metadata -> SSH Keys -> Add ssh key) and copy all from file <sshkey_name>.pub. If you already have SSH key to work with your GCP, you can reuse it.)
 
-5. Enable compute engine API, BigQuery API, IAM API, Dataproc API,  Service Networking API. 
+5. Enable compute engine API, BigQuery API, IAM API, Dataproc API, Cloud Dataproc API, Service Networking API. 
 6. Create a vm - `ghg-capstone-vm` with the below specifications:
     - Machine Configs: 
         - instance name: `ghg-capstone-vm`
@@ -99,6 +101,8 @@ KESTRA_PASSWORD="password" #TODO
 NAMESPACE="ghg_project"
 ```
 
+Also update gcp_kv accordingly. 
+
 17. Run the sh file to create and execute Kestra flows. 
 
 ```bash
@@ -149,3 +153,6 @@ mkdir lib
 gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
 ```
 
+Now, in your VM cd to scripts, run `gsutil cp transform_ghg_data.py gs://ghg-bucket/scripts/` 
+
+then run kestra flow for it. 
