@@ -57,6 +57,9 @@ ghg-creds.json                                                                  
 **Make sure to put the file in the location ~/.gc/ghg-creds.json**
 
 8. Login to your VM locally by running `ssh ghg-capstone-vm`/ or run Remote-SSH in your vscode. 
+
+
+
 9. Clone this repo using http in the VM
 
 10. go to git repo, pull from origin main, 
@@ -72,7 +75,11 @@ Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceac
 ```
 **done using set_credentials.sh don't have to do again.**
 
-15. Login to your VM via ssh / Remote-SSH and go to the terraform dir. 
+15. Login to your VM via ssh / Remote-SSH 
+
+15. Run `conda activate base` then do `pip intall requirements.txt`
+
+16. go to the terraform dir. 
 
 Run 
 terraform init

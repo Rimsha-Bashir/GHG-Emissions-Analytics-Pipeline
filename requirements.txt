@@ -1,0 +1,8 @@
+google-cloud-storage==2.5.0
+google-cloud-dataproc==3.0.0
+pyarrow==9.0.0
+psycopg2==2.9.3
+gcsfs==2022.11.0
+dbt-core==1.4.5
+dbt-bigquery==1.4.3
+pybigquery==0.10.2
