@@ -144,7 +144,7 @@ SPARK
 Setup Spark in the VM 
 
 ```bash
-cd $HOME
+cd GHG-Emissions-Analytics-Pipeline
 mkdir lib
 gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
 ```
