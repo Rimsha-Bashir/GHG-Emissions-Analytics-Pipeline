@@ -46,6 +46,12 @@ resource "google_dataproc_cluster" "dataproc-cluster" {
   
   cluster_config {
 
+    gce_cluster_config {
+      service_account = "ghg-user@${var.project}.iam.gserviceaccount.com"
+      service_account_scopes = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
     master_config {
       num_instances = 1
       machine_type  = "n1-standard-4"
