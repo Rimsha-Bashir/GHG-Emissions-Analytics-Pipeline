@@ -154,6 +154,37 @@ mkdir lib
 gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
 ```
 
-Now, in your VM cd to scripts, run `gsutil cp transform_ghg_data.py gs://ghg-bucket/scripts/` 
+Now, in your VM cd to kestra chmod +x exec all flows, then ./execallflows. 
 
-then run kestra flow for it. 
+
+
+
+
+DBT setup
+
+```bash 
+# for me only.
+(base) rimsha@ghg-capstone-vm:~/GHG-Emissions-Analytics-Pipeline$ python -m venv dbt-env
+(base) rimsha@ghg-capstone-vm:~/GHG-Emissions-Analytics-Pipeline$ source dbt-env/bin/activate
+(dbt-env) (base) rimsha@ghg-capstone-vm:~/GHG-Emissions-Analytics-Pipeline$ pip install dbt-core dbt-bigquery
+```
+
+makr sure to edit profiles.yml file as per your VM. (change location, if required.)
+run dbt init on your VM/ or dbt debug (profiles.yml)
+
+```yaml
+ghg-capstone:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: ghg-capstone
+      dataset: Staging
+      threads: 1
+      keyfile: "{{ env_var('GCP_KEYFILE') }}"  # Uses an environment variable
+      location: EU
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      priority: interactive
+```

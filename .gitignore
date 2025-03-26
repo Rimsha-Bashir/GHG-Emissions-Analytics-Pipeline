@@ -40,3 +40,6 @@ terraform.rc
 
 .snap/
 lib/
+
+dbt_env/
+logs/
