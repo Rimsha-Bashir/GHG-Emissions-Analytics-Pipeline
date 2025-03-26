@@ -30,7 +30,7 @@ tasks:
     type: io.kestra.plugin.core.kv.Set
     key: GCP_CLUSTER
     kvType: STRING
-    value: ghg-dataproc-v1
+    value: ghg-dataproc
   
   - id: gcp_region
     type: io.kestra.plugin.core.kv.Set
