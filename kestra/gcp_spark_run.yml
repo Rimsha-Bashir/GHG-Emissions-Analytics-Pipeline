@@ -8,7 +8,7 @@ tasks:
     projectId: "{{kv('GCP_PROJECT_ID')}}"
     serviceAccount: "{{kv('GCP_CREDS')}}"
     commands: 
-    - gcloud dataproc jobs submit pyspark gs://{{kv('GCP_BUCKET_NAME')}}/scripts/transform_ghg_data.py --cluster="{{kv('GCP_CLUSTER')}}" --region="{{kv('GCP_REGION')}}" --project="{{kv('GCP_PROJECT_ID')}}" -- --input_year {{execution.startDate | date('yyyy')}}
+    - gcloud dataproc jobs submit pyspark gs://{{kv('GCP_BUCKET_NAME')}}/scripts/transform_ghg_data.py --cluster="{{kv('GCP_CLUSTER')}}" --region="{{kv('GCP_REGION')}}" --project="{{kv('GCP_PROJECT_ID')}}" -- --input_year "{{execution.startDate | date('yyyy')}}"
       
 pluginDefaults:
   - type: io.kestra.plugin.gcp
