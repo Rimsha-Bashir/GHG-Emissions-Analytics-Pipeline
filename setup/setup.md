@@ -101,7 +101,8 @@ KESTRA_PASSWORD="password" #TODO
 NAMESPACE="ghg_project"
 ```
 
-Also update gcp_kv accordingly. 
+**Also update gcp_kv accordingly.**
+
 
 17. Run the sh file to create and execute Kestra flows. 
 
