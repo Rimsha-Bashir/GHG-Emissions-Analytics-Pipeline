@@ -1,25 +1,17 @@
 import pyspark
 import pandas as pd
-import argparse
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql import types
 from pyspark.sql import SparkSession
-
-# Argument parsing for input year
-parser = argparse.ArgumentParser()
-parser.add_argument('--input_year', required=True)
-args = parser.parse_args()
-input_year = args.input_year
-parser = argparse.ArgumentParser()
 
 
 spark = SparkSession.builder \
     .appName('test') \
     .getOrCreate()
 
-input_path = f"gs://ghg-bucket/raw/ghg_data_{input_year}.csv"
-output_path = f"gs://ghg-bucket/processed/{input_year}/ghg_data_{input_year}"
+input_path = f"gs://ghg-bucket/raw/emissions_data.csv"
+output_path = f"gs://ghg-bucket/processed/emissions_data"
 
 schema = types.StructType([ 
     types.StructField('country', types.StringType(), True),

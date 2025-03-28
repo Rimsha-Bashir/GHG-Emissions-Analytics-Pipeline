@@ -19,11 +19,11 @@ else
   exit 1
 fi
 
-echo -e "\n\n\nSCRIPT UPLOAD AND SPARK JOB SUBMIT..."
-if bash "${CURR_DIR}/execute_spark_run.sh"; then
-  echo -e "\n-------------------gcp_spark_run flow executed successfully! ✅ "
+echo -e "\n\n\nSCRIPT UPLOAD, SPARK JOB SUBMIT AND BIGQUERY TABLES CREATED..."
+if bash "${CURR_DIR}/execute_spark_bq.sh"; then
+  echo -e "\n-------------------gcp_spark_bq flow executed successfully! ✅ "
 else
-  echo -e "\n---------!!!Error: gcp_spark_run flow execution failed!" >&2
+  echo -e "\n---------!!!Error: gcp_spark_bq flow execution failed!" >&2
   exit 1
 fi
 
