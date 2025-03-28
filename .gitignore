@@ -41,5 +41,5 @@ terraform.rc
 .snap/
 lib/
 
-dbt_env/
+dbt-env/
 logs/
