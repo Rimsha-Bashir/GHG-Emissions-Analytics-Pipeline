@@ -3,20 +3,20 @@ namespace: ghg_project
 description: "Job to upload pyspark script to gcs bucket, submit job to dataproc and create a table in BigQuery"
 
 tasks:
+
   - id: submit_pyspark_job
-    type: "io.kestra.plugin.gcp.cli.GCloudCLI"
+    type: io.kestra.plugin.gcp.cli.GCloudCLI
     projectId: "{{kv('GCP_PROJECT_ID')}}"
     serviceAccount: "{{kv('GCP_CREDS')}}"
     commands: 
     - gcloud dataproc jobs submit pyspark gs://{{kv('GCP_BUCKET_NAME')}}/scripts/transform_ghg_data.py --cluster="{{kv('GCP_CLUSTER')}}" --region="{{kv('GCP_REGION')}}" --project="{{kv('GCP_PROJECT_ID')}}"
     retry:
+      type: constant
       maxAttempt: 2  
-      delay: PT50S
+      interval: PT50S
 
   - id: create_bq_table
-    type:
-    dependsOn:
-      - submit_pyspark_job
+    type: io.kestra.plugin.gcp.bigquery.Query
     sql: |
       LOAD DATA INTO `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.emissions_data`
       FROM FILES (
@@ -26,13 +26,10 @@ tasks:
 
   - id: create_bq_external_table
     type: io.kestra.plugin.gcp.bigquery.Query
-    dependsOn:
-      - submit_pyspark_job
-      - create_bq_table
     sql: |
       CREATE OR REPLACE EXTERNAL TABLE `{{kv('GCP_PROJECT_ID')}}.{{kv('GCP_DATASET')}}.external_emissions_data`
       OPTIONS (
-        format = 'PARQUET'',
+        format = 'PARQUET',
         uris = ['gs://{{kv('GCP_BUCKET_NAME')}}/processed/emissions_data/*.parquet']
       );
       
