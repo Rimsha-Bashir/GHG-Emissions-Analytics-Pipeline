@@ -1,33 +1,53 @@
 #!/bin/bash
 
-# Source environment variables from .env file
+
 source .env
 
-# Post the flow to Kestra
-echo -e "\n\nCreating the gcp_upload.yml flow in Kestra..."
-curl -v POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/flows" \
-    -H "Content-Type: application/x-yaml" \
-    -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
-    --data-binary @gcp_upload.yml
+check_response() {
+    http_code=$1
 
-# Check if the flow creation was successful
-if [ $? -eq 0 ]; then
-    echo -e "\n----------------gcp_upload.yml created successfully---------------------"
+    if [[ "$http_code" -eq 200 ]]; then
+        echo -e "Success"
+    else
+        echo -e "Error: HTTP Status Code: $http_code"
+        exit 1
+    fi
+}
+
+
+flow_exists=$(curl -s -o /dev/null -w "%{http_code}" -X GET "http://${VM_IP}:${KESTRA_PORT}/api/v1/flows/${NAMESPACE}/gcp_upload" \
+    -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}")
+
+http_code=$flow_exists
+
+if [[ "$http_code" -eq 200 ]]; then
+    # Flow already exists
+    echo -e "\nGCP Upload flow already exists..."
 else
-    echo -e "\n!!!------Error creating the flow gcp_upload.yml."
-    exit 1
+    # Flow doesn't exist, create it silently
+    echo -e "\nCreating the flow as it does not exist..."
+    response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/flows" \
+        -H "Content-Type: application/x-yaml" \
+        -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}" \
+        --data-binary @gcp_upload.yml)
+
+    http_code=$response
+    # Check if the flow creation was successful
+    if [[ "$http_code" -eq 200 ]]; then
+        echo -e "\nGCP Upload flow created successfully."
+    else
+        echo -e "\nError creating the GCP Upload flow."
+        exit 1
+    fi
 fi
 
+# Execute the flow gcp_upload.yml
+response=$(curl -s -o /dev/null -w "%{http_code}" -X POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/executions/${NAMESPACE}/gcp_upload" \
+    -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}")
 
+http_code=$response
 
-echo -e "\n\nExecuting the flow gcp_upload.yml in Kestra..."
-curl -X POST "http://${VM_IP}:${KESTRA_PORT}/api/v1/executions/${NAMESPACE}/gcp_upload" \
-    -u "${KESTRA_EMAIL}:${KESTRA_PASSWORD}"
+# Print the flow execution status
+echo "GCP Upload flow execution status: $(check_response "$http_code")"
 
-# Check if the flow execution was successful
-if [ $? -eq 0 ]; then
-    echo -e "\n----------------gcp_upload.yml executed successfully----------------"
-else
-    echo -e "\n!!!------Error executing the flow gcp_upload.yml"
-    exit 1
-fi
+exit 0 
