@@ -102,12 +102,7 @@ df = spark.read \
     .schema(schema) \
     .csv(input_path)
 
-df = df.withColumn("gdp", F.col("gdp").cast(types.LongType()))
-df = df.withColumn("gdp", F.when(F.col("gdp").rlike("^\d+$"), F.col("gdp"))
-                             .otherwise(None)
-                             .cast(types.LongType()))
-df = df.fillna({'gdp': 0})  # Replace NULL or malformed GDP values with 0 (or another default)
-
+df = df.withColumn("gdp", F.col("gdp").cast(types.LongType()))  
 df = df.dropna(how="all")
 df.coalesce(1).write.parquet(output_path, mode='overwrite')
 
