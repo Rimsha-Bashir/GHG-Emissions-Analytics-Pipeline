@@ -43,3 +43,5 @@ lib/
 
 dbt-env/
 logs/
+
+.user.yml
