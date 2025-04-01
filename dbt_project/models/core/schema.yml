@@ -1,0 +1,19 @@
+version: 2 
+
+models:
+  - name: dim_country_info
+    description: >
+     population, gdp and other statistical information on the countries
+  - name: fact_emissions
+    description: >
+     collective data of ghg emissions
+  - name: global_temp
+    description: >
+     global trend of temperature fluctuations by year
+  - name: emissions_vs_econ
+    description: >
+     Relationship between emissions and economic growth
+  - name: annual_emissions
+    description: >
+      Annual Emissions by Country
+      

@@ -182,9 +182,29 @@ ghg-capstone:
       project: ghg-capstone
       dataset: Staging
       threads: 1
-      keyfile: "{{ env_var('GCP_KEYFILE') }}"  # Uses an environment variable
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"  # Uses an environment variable
+      location: EU
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      priority: interactive
+    prod:
+      type: bigquery
+      method: service-account
+      project: ghg-capstone
+      dataset: Analytics
+      threads: 1
+      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"  # Uses an environment variable
       location: EU
       job_execution_timeout_seconds: 300
       job_retries: 1
       priority: interactive
 ```
+
+dbt build for running in dev environment 
+dbt build -t prod for running in prod environment
+
+dbt deps 
+dbt test
+dbt build 
+
+dbt build -t prod 

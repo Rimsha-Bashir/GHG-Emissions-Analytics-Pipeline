@@ -1,0 +1,31 @@
+version: 2 
+
+sources:
+  - name: staging
+    database: ghg-capstone
+    schema: Staging
+
+    tables:
+      - name: emissions_data
+
+models:
+  - name: stg_emissions
+    description: >
+      Staging model built for prelimiary analysis of the GHG & CO2 Emissions data. 
+    columns:
+      - name: year
+        tests:
+          - not_null:
+              severity: warn
+      - name: country 
+        tests:
+          - not_null:
+              severity: warn
+  - name: stg_country
+    description: >
+      Staging model built to get info on the country, like its gdp and population. 
+    columns:
+      - name: country 
+        tests:
+          - not_null:
+              severity: warn
