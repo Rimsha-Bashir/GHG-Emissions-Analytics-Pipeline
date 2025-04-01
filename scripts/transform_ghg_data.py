@@ -95,11 +95,14 @@ schema = types.StructType([
     types.StructField('trade_co2_share', types.FloatType(), True)
 ])
 
+
+
 df = spark.read \
     .option("header", "true") \
     .schema(schema) \
     .csv(input_path)
 
+df = df.withColumn("gdp", F.col("gdp").cast(types.LongType()))  
 df = df.dropna(how="all")
 df.coalesce(1).write.parquet(output_path, mode='overwrite')
 
