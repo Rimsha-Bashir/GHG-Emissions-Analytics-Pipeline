@@ -18,7 +18,7 @@ schema = types.StructType([
     types.StructField('year', types.IntegerType(), True),
     types.StructField('iso_code', types.StringType(), True),
     types.StructField('population', types.LongType(), True),
-    types.StructField('gdp', types.LongType(), True),
+    types.StructField('gdp', types.DecimalType(20, 0), True),
     types.StructField('cement_co2', types.FloatType(), True),
     types.StructField('cement_co2_per_capita', types.FloatType(), True),
     types.StructField('co2', types.FloatType(), True),
@@ -102,7 +102,8 @@ df = spark.read \
     .schema(schema) \
     .csv(input_path)
 
-df = df.withColumn("gdp", F.col("gdp").cast(types.LongType()))  
+df = df.withColumn("gdp", F.col("gdp").cast(types.DecimalType(20, 0)))  # Ensure large number support
+
 df = df.dropna(how="all")
 df.coalesce(1).write.parquet(output_path, mode='overwrite')
 
