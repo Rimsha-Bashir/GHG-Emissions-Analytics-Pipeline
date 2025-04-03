@@ -10,6 +10,7 @@
     - [Citation](#citation)
 - [Tech Stack](#tech-stack)
 - [Data Pipeline Architecture Diagram](#pipeline-architecture)
+- [DBT Lineage Graph](#dbt-lineage-view)
 - [Dashboard](#dashboard)
 - [Instructions to Reproduce](#instructions-to-reproduce)
 
