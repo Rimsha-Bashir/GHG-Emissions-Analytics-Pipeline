@@ -31,14 +31,12 @@
 
 5. Click on the three dots under `Actions` for the created Service Account and select `Manage keys`.
 
-    ![ssh-creation](../images/step1.3.PNG)
-
     1. `Add key -> Create new key -> JSON -> Create`
     2. `Create New Key for this account (json)`
 
     Download created service-account-key, rename it as `ghg-creds.json` and put it in `~/.gc` dir (create folder if needed). 
 
-    (**Remember to the name the credential file as specified and save it within the same directory (preferably your user/home dir)**)
+    **Remember to the name the credential file as specified and save it within the same directory (preferably your user/home dir)**
 
 6. Generate an SSH key (if you don't have it yet) by following the instructions below, and add it to GCP. We'll do this in order to login to VM instances.
 
@@ -48,7 +46,8 @@
         cd ~/.ssh
         ssh-keygen -t rsa -f ~/.ssh/gcp -C <username>
         ```
-        This will generate an ssh keypair, named `gcp`. **Remember to change the `username` specified in the command above accordingly.** 
+        This will generate an ssh keypair, named `gcp`. 
+        **Remember to change the `username` specified in the command above accordingly.** 
 
     - Copy the generated public key to google cloud: `Compute Engine -> Settings -> Metadata -> SSH Keys -> Add ssh key` and copy all from file `gcp.pub`. If you already have SSH key to work with your GCP, you can reuse it.
 
@@ -98,12 +97,9 @@
 
 8. Create a firewall rule to allow access to `Kestra UI` at port 8080. 
 
-    ![firewall-rule1](../images/step1.5.PNG)
-
     ![firewall-rule2](../images/firewall_rule.png)
 
     Click on `Create`.
-
 
 
 ### Setup Google Credentials and Github Project (VM)
@@ -240,7 +236,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
 25. Run `./execute_all_flows.sh`. 
 
-> Note: Kestra UI is running on port 8080, you can forward the port (if using Remote-SSH in vscode) to view execution details, but but they will also be printed directly in the terminal when the sh file runs.
+> Note: Kestra UI is running on port 8080, you can forward the port (if using Remote-SSH in vscode) to view execution details, but they will also be printed directly in the terminal when the sh file runs.
 
 
 ### Build DBT transformation Models in the VM
