@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CURR_DIR="$(dirname "$0")"
+CURR_DIR="$(dirname "$0")" # must be run from kestra dir
 chmod +x "${CURR_DIR}"/execute_*.sh
 
 echo -e "\n\n\nGCP KEYS SETUP IN KESTRA..."
