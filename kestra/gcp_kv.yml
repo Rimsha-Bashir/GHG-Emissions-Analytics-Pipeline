@@ -36,4 +36,4 @@ tasks:
     type: io.kestra.plugin.core.kv.Set
     key: GCP_REGION
     kvType: STRING
-    value: europe-west1 #TODO - Add your location
+    value: europe-west1 #TODO - Add your region
