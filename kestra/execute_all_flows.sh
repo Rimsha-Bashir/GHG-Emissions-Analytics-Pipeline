@@ -19,7 +19,7 @@ else
   exit 1
 fi
 
-echo -e "\n\n\nSCRIPT UPLOAD, SPARK JOB SUBMIT AND BIGQUERY TABLES CREATED..."
+echo -e "\n\n\nSCRIPT UPLOAD, SPARK JOB SUBMIT AND BIGQUERY TABLES CREATION..."
 if bash "${CURR_DIR}/execute_spark_bq.sh"; then
   echo -e "\n-------------------gcp_spark_bq flow executed successfully!  "
 else
