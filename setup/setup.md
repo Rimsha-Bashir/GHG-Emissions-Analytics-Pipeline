@@ -6,6 +6,7 @@
 - [Provision Infratructure using Terraform (VM)](#provision-infrastructure-using-terraform-vm)
 - [Run Data Orchestration Pipeline using Kestra (VM)](#run-orchestration-pipeline-using-kestra-vm)
 - [Build DBT models to prepare data for analytics (VM)](#build-dbt-transformation-models-in-the-vm)
+- [Future Improvements](#future-improvements)
 
 ### Setup Google Cloud Environment and SSH access (Locally)
 
@@ -15,7 +16,7 @@
 
     ![GCP Project](../images/step1.1.PNG)
 
- > Note: You can choose to name the project as you wish, but ensure that environment and other project variables are set accrodingly. As per the chosen project_id, `modify .env`, `variables.tf`, and the `kestra flow GCP_KV`.
+ > Note: You can choose to name the project as you wish, but ensure that environment and other project variables are set accrodingly. As per the chosen project_id, modify `.env`, `variables.tf`, and the `kestra flow GCP_KV`.
 
 3. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) if it's not already installed in your system.
 
@@ -104,25 +105,16 @@
 
 ### Setup Google Credentials and Github Project (VM)
 
-9. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) You can follow any of the methods below. 
+9. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) 
 
-    - Method 1: 
+    - In your gitbash terminal, cd to `.gc` directory where you've saved your `ghg-creds.json` file.
+    - Then, 
+        - Run `sftp ghg-capstone-vm`
+        - `mkdir .gc`
+        - `cd .gc`
+        - Run `put ghg-creds.json` 
 
-        - In your gitbash terminal, cd to `.gc` directory where you've saved your `ghg-creds.json` file. (If it's saved in user or home dir, cd to that location).
-        - Then, 
-            - Run `sftp ghg-capstone-vm`
-            - `mkdir .gc`
-            - `cd .gc`
-            - Run `put ghg-creds.json` 
-
-    - Method 2: 
-
-        - Run `scp ~/.gc/ghg-creds.json <username>@ghg-capstone-vm:~/.gc/`
-
-            ```bash
-            $ scp ~/.gc/ghg-creds.json <username>@ghg-capstone-vm:~/.gc/
-            ghg-creds.json                                                                            100% 2346    72.6KB/s   00:00
-            ```
+    - Alternatively, you can run `scp ~/.gc/ghg-creds.json <username>@ghg-capstone-vm:~/.gc/`
 
 10. Connect to your VM by running `ssh ghg-capstone-vm` in gitbash/ or click on `CTRL + SHIFT + P` and select `Remote-SSH` in VScode (To do this, install the `Remote-SSH` extension in VScode). 
 
