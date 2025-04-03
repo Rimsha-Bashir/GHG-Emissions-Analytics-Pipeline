@@ -5,7 +5,7 @@ dbt_project:
       job_execution_timeout_seconds: 300
       job_retries: 1
       keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
-      location: EU
+      location: EU #todo
       method: service-account
       priority: interactive
       project: ghg-capstone
@@ -16,7 +16,7 @@ dbt_project:
       job_execution_timeout_seconds: 300
       job_retries: 1
       keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
-      location: EU
+      location: EU #todo
       method: service-account
       priority: interactive
       project: ghg-capstone

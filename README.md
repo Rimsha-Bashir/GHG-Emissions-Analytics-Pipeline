@@ -1,5 +1,20 @@
 # Global Greenhouse Gas (GHG) & CO₂ Emissions Data Pipeline 🌍 
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Problem Statement](#problem-statement-the-climate-challenge)
+    - [Key Research Questions](#key-research-questions)
+- [Objectives](#objectives)
+- [Data Source](#data-source)
+    - [Citation](#citation)
+- [Tech Stack](#tech-stack)
+- [Data Pipeline Architecture Diagram](#pipeline-architecture)
+- [DBT Lineage Graph](#dbt-lineage-view)
+- [Dashboard](#dashboard)
+- [Instructions to Reproduce](#instructions-to-reproduce)
+
+
 ## Overview
 
 Climate change is one of the most pressing global challenges, with greenhouse gas (GHG) emissions—especially carbon dioxide (CO₂)—being a major driver of rising global temperatures. Understanding emission trends is critical for policymakers, researchers, and sustainability leaders aiming to mitigate climate change and develop effective carbon reduction strategies.
@@ -43,7 +58,7 @@ Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas 
 
 ## Tech Stack 
 
-![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)
+![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) 
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Google Cloud](https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white) <img src="https://img.shields.io/badge/Apache%20Spark-FDEE21?style=for-the-badge&logo=apachespark&logoColor=black" width="140" alt="Apache Spark">
 ![Kestra](https://img.shields.io/badge/Kestra-390380?style=for-the-badge&logo=kestra&logoColor=ffffff)
@@ -55,6 +70,37 @@ Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas 
 ![Power BI](https://img.shields.io/badge/power_bi-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
 
 
-## Pipeline Architecture
+## Pipeline Architecture Diagram
 
 ![Arch Diagram](images/ghg_arch.drawio.svg)
+
+## DBT Lineage View 
+
+This Lineage Graph represents the DAG, showing the flow of data between dbt models.. 
+
+![dbtmodels](./images/LineageGraph.PNG)
+
+## Dashboard 
+
+A high-level snapshot of total greenhouse gas (GHG) emissions, CO₂ emissions, and their impact on global temperature trends over time.
+
+![Page-1](./images/dashboard-pg1.PNG)
+
+A geographic breakdown of emissions, showing region-wise contributions, emission per capita, and regional growth trends over the years.
+
+![Page-2](./images/dashboard-pg2.PNG)
+
+A source-wise breakdown of major contributors to CO2 emissions and an examination of emissions in relation to economic growth.
+
+![Page-3](./images/dashboard-pg3.PNG)
+
+An analysis of temperature change due to Greenhouse gas emissions since pre-industrial times. 
+
+![Page-4](./images/dashboard-pg4.PNG)
+
+
+
+## Instructions to Reproduce
+
+Steps to reproduce this end to end pipeline has been documented in [setup.md](./setup/setup.md). 
+
