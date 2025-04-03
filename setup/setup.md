@@ -137,6 +137,8 @@
     cd "GHG-Emissions-Analytics-Pipeline"
     ```
 
+12. Run `pip install -r requirements.txt` to install necessary libraries and packages.
+
 
 ### Install Applications (VM)
 
@@ -179,7 +181,7 @@
     ```
 
 ### Provision Infrastructure using Terraform (VM) 
-_
+
 16. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
 
 ```
@@ -232,36 +234,41 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
     **Remember to update VM_IP value to reflect your VM's external IP and KESTRA_EMAIL as your email address**
 
-23. Update `gcp_kv.yml` accordingly
+23. Update `gcp_kv.yml` accordingly.
 
-24. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (check kestra/))
+24. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
 
-25. Run `./execute_all_flows.sh`
+25. Run `./execute_all_flows.sh`. 
+
+> Note: Kestra UI is running on port 8080, you can forward the port (if using Remote-SSH in vscode) to view execution details, but but they will also be printed directly in the terminal when the sh file runs.
 
 
 ### Build DBT transformation Models in the VM
 
-26. cd to `dbt_project` and update `profiles.yml` as needed.
+26. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
 
-27. Run `dbt debug`
+```bash
+python -m venv dbt-env
+source dbt-env/bin/activate
+pip install dbt-core dbt-bigquery
+```
 
-28. Run `dbt deps`
+27. cd to `dbt_project` and update `profiles.yml` as needed.
 
-29. Run `dbt build`
+28. Run `dbt debug`
 
-30. Run `dbt build -t prod`
+29. Run `dbt deps`
+
+30. Run `dbt build`
+
+31. Run `dbt build -t prod`
 
 ### Build Dashboard for Analysis
 
-You can source data in the `Analytics` dataset in BigQuery into your desired data visualization tool. I have used Power BI in the project. 
+You can source data from the `Analytics` dataset in BigQuery into your desired data visualization tool. I have used Power BI in the project. 
 
 
+### Future Improvements
 
-
-
-
-
-
-
-makr sure to edit profiles.yml file as per your VM. 
-run dbt init on your VM/ or dbt debug (profiles.yml)
+- Implement CI/CD
+- Add Make file 
