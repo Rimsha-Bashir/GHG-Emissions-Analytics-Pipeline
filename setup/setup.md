@@ -1,29 +1,73 @@
-1. Create a project in GCP - `ghg-capstone` 
-2. Install Google Cloud SDK.
-3. Create service account `ghg-user`. Give the below permissions:
+## Table of Contents
 
-    ![alt text](../images/permissions.png) 
+- [Setup Google Cloud Environment and SSH Key (Local)](#setup-google-cloud-environment-and-ssh-access-locally)
+- [Setup Google Credentials and Github Project (VM)](#setup-google-credentials-and-github-project-vm)
+- [Install Applications (VM)](#install-applications-vm)
+- [Provision Infratructure using Terraform (VM)](#provision-infrastructure-using-terraform-vm)
+- [Run Data Orchestration Pipeline using Kestra (VM)](#run-orchestration-pipeline-using-kestra-vm)
+- [Build DBT models to prepare data for analytics (VM)](#build-dbt-transformation-models-in-the-vm)
 
-   And create a Service Account json key. We'll name it `ghg-creds.json` (**Remember to the name the file the same**)
+### Setup Google Cloud Environment and SSH access (Locally)
 
-4. Create SSH key (if you don't have it yet), and add it to GCP. In order to login to the VM.
+1. Create an account on Google's Cloud platform with your Google email ID. 
 
-    (Generate SSH keys to login to VM instances (if you don't have it yet). This will generate an ssh keypair, named gcp and a comment of <username>. The comment (<username>) will be the user on VM :
+2. Create a project in [Google Cloud Console](https://console.cloud.google.com/) and name it - `ghg-capstone`. Edit the custom `Project ID` and rename it as `ghg-capstone` as well.   
 
-    In terminal:
+    ![GCP Project](../images/step1.1.PNG)
 
-    ```bash
-    cd ~/.ssh
-    ssh-keygen -t rsa -f ~/.ssh/<sshkey_name> -C <username>
-    ```
+ > Note: You can choose to name the project as you wish, but ensure that environment and other project variables are set accrodingly. As per the chosen project_id, `modify .env`, `variables.tf`, and the `kestra flow GCP_KV`.
 
-    Copy the generated public key to google cloud: (Compute Engine -> Metadata -> SSH Keys -> Add ssh key) and copy all from file <sshkey_name>.pub. If you already have SSH key to work with your GCP, you can reuse it.)
+3. Install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) if it's not already installed in your system.
 
-5. Enable compute engine API, BigQuery API, IAM API, Dataproc API, Cloud Dataproc API, Service Networking API. 
-6. Create a vm - `ghg-capstone-vm` with the below specifications:
+4. Go to `IAM & Admin > Service Accounts` and create a service account. Name the service account as `ghg-user` and give it the below mentioned permissions:
+
+    ![sa-permissions](../images/permissions.png) 
+
+    here, 
+
+    ![sa-creation](../images/step1.2.PNG)
+
+    Click on `Done` after assigning the roles. The service Account will now be created. 
+
+5. Click on the three dots under `Actions` for the created Service Account and select `Manage keys`.
+
+    ![ssh-creation](../images/step1.3.PNG)
+
+    1. `Add key -> Create new key -> JSON -> Create`
+    2. `Create New Key for this account (json)`
+
+    Download created service-account-key, rename it as `ghg-creds.json` and put it in `~/.gc` dir (create folder if needed). 
+
+    (**Remember to the name the credential file as specified and save it within the same directory (preferably your user/home dir)**)
+
+6. Generate an SSH key (if you don't have it yet) by following the instructions below, and add it to GCP. We'll do this in order to login to VM instances.
+
+    - In terminal (git bash):
+
+        ```bash
+        cd ~/.ssh
+        ssh-keygen -t rsa -f ~/.ssh/gcp -C <username>
+        ```
+        This will generate an ssh keypair, named `gcp`. **Remember to change the `username` specified in the command above accordingly.** 
+
+    - Copy the generated public key to google cloud: `Compute Engine -> Settings -> Metadata -> SSH Keys -> Add ssh key` and copy all from file `gcp.pub`. If you already have SSH key to work with your GCP, you can reuse it.
+
+7. Enable the below API's. 
+
+    - Compute engine API
+    - BigQuery API
+    - IAM API
+    - Dataproc API
+    - Cloud Dataproc API
+    - Service Networking API. 
+
+8. Go to Compute Engine, and click on `Create a VM instance` to create a Virtual Machine Instance with the below specifications:
+
+    ![vm-creation](../images/step1.4.PNG)
+
     - Machine Configs: 
         - instance name: `ghg-capstone-vm`
-        - region: `europe-west1 (belgium)`
+        - region: `europe-west1 (belgium)` 
         - machine type: `e2-standard-4 (4 vCPU, 2 core, 16 GB memory)`
     - OS & Storage:
         - OS: `Ubuntu`
@@ -32,179 +76,192 @@
     - Identity & API access:
         - select `scope`-`allow default access` and `firewall`-`allow https traffic`
 
-7. Create a firewall rule to allow access to Kestra UI at port 8080. 
+    
+    - After the VM is created, copy the `External IP` address. 
 
-    ![alt text](../images/firewall_rule.png)
+    **Remember to modify the region as per your location/where the account is being created**
 
-    Click on `Create`
+    > Note: You can choose to name the VM as you wish, but ensure that environment and other project variables are set accrodingly. As per the chosen VM name, modify `.env`.
 
-7. Modify/update config file if you already have it setup to add a new Host `ghg-capstone-vm`, like this - 
+7. Go to ~/.ssh in your local and modify, or update the `config` file if you already have it setup, to add a new Host `ghg-capstone-vm`, like this - 
+
+    ```
+        Host ghg-capstone-vm 
+            HostName <external-ip>
+            User <username> 
+            IdentityFile ~/.ssh/gcp
+    ```
+
+    - Paste the copied VM External IP address here, and set the user as per the `username` entered in `Step 6` while creating the SSH key.
+    - Now, you can connect to your VM by running `ssh ghg-capstone-vm`.  
+
+
+8. Create a firewall rule to allow access to `Kestra UI` at port 8080. 
+
+    ![firewall-rule1](../images/step1.5.PNG)
+
+    ![firewall-rule2](../images/firewall_rule.png)
+
+    Click on `Create`.
+
+
+
+### Setup Google Credentials and Github Project (VM)
+
+9. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) You can follow any of the methods below. 
+
+    - Method 1: 
+
+        - In your gitbash terminal, cd to `.gc` directory where you've saved your `ghg-creds.json` file. (If it's saved in user or home dir, cd to that location).
+        - Then, 
+            - Run `sftp ghg-capstone-vm`
+            - `mkdir .gc`
+            - `cd .gc`
+            - Run `put ghg-creds.json` 
+
+    - Method 2: 
+
+        - Run `scp ~/.gc/ghg-creds.json <username>@ghg-capstone-vm:~/.gc/`
+
+            ```bash
+            $ scp ~/.gc/ghg-creds.json <username>@ghg-capstone-vm:~/.gc/
+            ghg-creds.json                                                                            100% 2346    72.6KB/s   00:00
+            ```
+
+10. Connect to your VM by running `ssh ghg-capstone-vm` in gitbash/ or click on `CTRL + SHIFT + P` and select `Remote-SSH` in VScode (To do this, install the `Remote-SSH` extension in VScode). 
+
+11. In the VM, clone this repo and cd to it. 
+
+    ```
+    git clone https://github.com/Rimsha-Bashir/GHG-Emissions-Analytics-Pipeline.git 
+    cd "GHG-Emissions-Analytics-Pipeline"
+    ```
+
+
+### Install Applications (VM)
+
+12. Update the below variables in the `.env` file according to your project specifications (if you've chosen to set different values for the VM name, and GCP Project ID). If you choose to keep the same variable values as the project to avoid confusion, let the environment variables be as is. But **remember to update the PROJECT_LOCATION as it is specific to where your account is created**
+
+    ```
+
+    PROJECT_ID="ghg-capstone"
+    VM_NAME="ghg-capstone-vm"
+    PROJECT_LOCATION="europe-west1"
+    KEY_FILENAME="ghg-creds.json"
+    KEY_PATH="$HOME/.gc/${KEY_FILENAME}"
+
+    ```
+
+13. cd to the `setup` folder in the repo.  
+
+14. Run the below commands
+
+    ```bash
+
+    chmod +x setup.sh 
+    ./setup.sh
+
+    ```
+
+    This script will perform the below tasks:
+
+    - Install Anaconda
+    - Install Docker and Docker Compose (To run without sudo)
+    - Install Spark and its dependencies
+    - Install Terraform 
+    - Activate and authenticate Google Application Credentials 
+    - Set environment paths necessary is `.bashrc`
+
+15. **!! Logout of the VM so your group membership for Docker is re-evaluated !!**
+
+    ```bash
+    logout ghg-capstone
+    ```
+
+### Provision Infrastructure using Terraform (VM) 
+_
+16. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
+
 ```
-    Host ghg-capstone-vm 
-        HostName <external-ip>
-        User <username> 
-        IdentityFile ~/.ssh/<sshkey_name>
-```
+TF_VAR_project="ghg-capstone"
+TF_VAR_region="europe-west1"
+TF_VAR_location="EU"
 
-13. Add service account keys to VM (locally from local terminal) - It's convenient to make sure your json file is saved in a Home dir location.
-For example, create `.gc` in your home dir, add `ghg-creds.json` there...  then `cd` to that folder, do `sftp ghg-capstone-vm` and `mkdir .gc`, `cd .gc` then `put ghg-creds.json`.  
-
-Can also do this - locally. 
-```bash
-rimsh@LAPTOP-J29FGN6B MINGW64 ~
-$ scp ~/.gc/ghg-creds.json rimsha@de-zoomcamp:~/.gc/
-ghg-creds.json                                                                            100% 2346    72.6KB/s   00:00
-```
-
-**Make sure to put the file in the location ~/.gc/ghg-creds.json**
-
-8. Login to your VM locally by running `ssh ghg-capstone-vm`/ or run Remote-SSH in your vscode. 
-
-
-
-9. Clone this repo using http in the VM
-
-10. go to git repo, pull from origin main, 
-11. then, chmmod +x setup.sh 
-12. run setup.sh bash file... to install all dependencies inside VM>bin/. **Remember to logout then login for some changes to be updated!**
-
-14. Configure gcloud with your service account .json file (Make sure to add the correct path in the .env file)
-```bash
-rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ source .env
-rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ export GOOGLE_APPLICATION_CREDENTIALS=$KEY_PATH
-rimsha@de-zoomcamp:~/GHG-Emissions-Analytics-Pipeline$ gcloud auth activate-service-account --key-file=$KEY_PATH
-Activated service account credentials for: [ghg-user@ghg-capstone.iam.gserviceaccount.com]
-```
-**done using set_credentials.sh don't have to do again.**
-
-15. Login to your VM via ssh / Remote-SSH 
-
-15. Run `conda init bash`, `source ~/.bashrc`, `conda activate bash` then do `pip intall requirements.txt`
-
-16. go to the terraform dir. 
-
-Run 
-terraform init
-then 
-terraform plan and 
-then
-`export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)`  > to export env variables
-terraform apply. 
-
-
-16. Running kestra... modify email and pass in .env to a valid email id and your chosen password to login to kestra UI and run kestra_api commands. 
-```
-KESTRA_PORT="8080"
-VM_IP="external_ip_vm" #TODO
-KESTRA_EMAIL="youremail" #TODO
-KESTRA_PASSWORD="password" #TODO
-NAMESPACE="ghg_project"
-```
-
-**Also update gcp_kv accordingly.**
-
-
-17. Run the sh file to create and execute Kestra flows. 
-
-```bash
-chmod +x execute_all_flows.sh 
-./execute_all_flows.sh
-```
-
-
-
-
-
-<details>
-Command to run the flow 1 - `curl -v -X POST "http://34.78.176.130:8080/api/v1/flows" -H "Content-Type: application/x-yaml" -u "bashirrimsha22@gmail.com:kestra" --data-binary @created-by-api.yml`
-
-Command to execute the flow 1 - `curl -X POST "http://34.78.176.130:8080/api/v1/executions/company.gk/created_by_api"` 
-
-
-#Note -region, location, project_id defined in env. 
-
-run api command to add key-value pair for `GCP_CREDS`
-
-
-curl -v -X PUT "http://34.78.176.130:8080/api/v1/namespaces/your_namespace/kv/GCP_CREDS" \
-     -H "Content-Type: application/json" \
-     -u "bashirrimsha22@gmail.com:kestra" \
-     --data-binary @~/.gc/gcp_creds.json
-
-To verify:
-
-curl -X GET "http://34.78.176.130:8080/api/v1/namespaces/your_namespace/kv/GCP_CREDS" \
-     -u "bashirrimsha22@gmail.com:kestra"
-
-curl -v POST "http://34.38.225.163:8080/api/v1/flows" \
-    -H "Content-Type: application/x-yaml" \
-    -u "bashirrimsha22@gmail.com:kestra" \
-    --data-binary @gcp_kv.yml
-
-</details>
-
-
-SPARK
-
-Setup Spark in the VM (In your VM bash)
-
-```bash
-cd GHG-Emissions-Analytics-Pipeline/scripts
-mkdir lib
-gsutil cp gs://hadoop-lib/gcs/gcs-connector-hadoop3-2.2.5.jar ./lib/
 ```
 
-Now, in your VM cd to kestra chmod +x exec all flows, then ./execallflows. 
+17. cd to `terraform` directory
 
+18. Run `terraform init` to initialize terraform backend. 
 
+19. Run the below command to export .env variables as terraform variables. 
 
-
-
-DBT setup
-
-```bash 
-# for me only.
-(base) rimsha@ghg-capstone-vm:~/GHG-Emissions-Analytics-Pipeline$ python -m venv dbt-env
-(base) rimsha@ghg-capstone-vm:~/GHG-Emissions-Analytics-Pipeline$ source dbt-env/bin/activate
-(dbt-env) (base) rimsha@ghg-capstone-vm:~/GHG-Emissions-Analytics-Pipeline$ pip install dbt-core dbt-bigquery
 ```
+export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
+``` 
+20. Run `terraform plan`
 
-makr sure to edit profiles.yml file as per your VM. (change location, if required.)
+21. Run `terraform apply`
+
+ 
+### Run Orchestration Pipeline using Kestra (VM)
+
+- Set GCP Variables and Credentials  (gcp_kv.yml)
+    - Define **Google Cloud Storage (GCS) bucket**, **Dataproc cluster**, and **BigQuery datasets** as key-value pairs.  
+    - Store **service account credentials** securely for authentication and authorization.  
+
+- Data Ingestion Flow (gcp_upload.yml)
+    - Upload raw emissions data into `GCS bucket - ghg-bucket` for further processing.   
+
+- Data Transformat_ion with Dataproc and PySpark  (gcp_spark_bq.yml)
+    - Copy `scripts/transform_ghg_data.py` into `ghg-bucket`
+    - Submit a job to `dataproc cluster` to process raw data using `PySpark`.  
+    - Perform `data cleansing` and `transformations`.  
+    - Store the transformed data into `BigQuery - Staging` for further analysis.  
+
+
+22. Update values in `kestra/.env`. 
+
+    ```
+    KESTRA_PORT="8080"              # don't change port number unless there's a conflict with another app running on the same port, 
+                                    # and if that's the case, update here and in the docker-compose file as well. 
+    VM_IP="a.b.c.d"                         #todo
+    KESTRA_EMAIL="youremailid@abc.com"      #todo
+    KESTRA_PASSWORD="kestra"
+    NAMESPACE="ghg_project"                 # don't change
+    ```
+
+    **Remember to update VM_IP value to reflect your VM's external IP and KESTRA_EMAIL as your email address**
+
+23. Update `gcp_kv.yml` accordingly
+
+24. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (check kestra/))
+
+25. Run `./execute_all_flows.sh`
+
+
+### Build DBT transformation Models in the VM
+
+26. cd to `dbt_project` and update `profiles.yml` as needed.
+
+27. Run `dbt debug`
+
+28. Run `dbt deps`
+
+29. Run `dbt build`
+
+30. Run `dbt build -t prod`
+
+### Build Dashboard for Analysis
+
+You can source data in the `Analytics` dataset in BigQuery into your desired data visualization tool. I have used Power BI in the project. 
+
+
+
+
+
+
+
+
+
+makr sure to edit profiles.yml file as per your VM. 
 run dbt init on your VM/ or dbt debug (profiles.yml)
-
-```yaml
-ghg-capstone:
-  target: dev
-  outputs:
-    dev:
-      type: bigquery
-      method: service-account
-      project: ghg-capstone
-      dataset: Staging
-      threads: 1
-      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"  # Uses an environment variable
-      location: EU
-      job_execution_timeout_seconds: 300
-      job_retries: 1
-      priority: interactive
-    prod:
-      type: bigquery
-      method: service-account
-      project: ghg-capstone
-      dataset: Analytics
-      threads: 1
-      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"  # Uses an environment variable
-      location: EU
-      job_execution_timeout_seconds: 300
-      job_retries: 1
-      priority: interactive
-```
-
-dbt build for running in dev environment 
-dbt build -t prod for running in prod environment
-
-dbt deps 
-dbt test
-dbt build 
-
-dbt build -t prod 
