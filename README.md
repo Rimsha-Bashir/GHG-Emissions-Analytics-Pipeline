@@ -13,6 +13,8 @@
 - [DBT Lineage Graph](#dbt-lineage-view)
 - [Dashboard](#dashboard)
 - [Instructions to Reproduce](#instructions-to-reproduce)
+- [Future Improvements](#future-improvements)
+- [Acknowledgment](#acknowledgement)
 
 
 ## Overview
@@ -99,8 +101,19 @@ An analysis of temperature change due to Greenhouse gas emissions since pre-indu
 ![Page-4](./images/dashboard-pg4.PNG)
 
 
+You can view a preview of this dashboard in my novypro account, [here](https://project.novypro.com/oRqeXa).
 
 ## Instructions to Reproduce
 
-Steps to reproduce this end to end pipeline has been documented in [setup.md](./setup/setup.md). 
+Steps to reproduce this end-to-end pipeline has been documented in [setup.md](./setup/setup.md). 
 
+## Future Improvements
+
+- Implement CI/CD
+- Add Make file
+
+## Acknowledgement
+
+This is a capstone project developed as a part of **Data Engineering ZoomCamp** course. 
+
+A huge thanks to the [DataTalks.Club](https://datatalks.club/) team and instructors for a great learning experience!
