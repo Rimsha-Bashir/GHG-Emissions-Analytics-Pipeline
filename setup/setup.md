@@ -1,4 +1,4 @@
-## Table of Contents
+# Table of Contents
 
 - [Setup Google Cloud Environment and SSH Key (Local)](#setup-google-cloud-environment-and-ssh-access-locally)
 - [Setup Google Credentials and Github Project (VM)](#setup-google-credentials-and-github-project-vm)
@@ -7,9 +7,8 @@
 - [Run Kestra using Docker (VM)](#run-kestra-using-docker)
 - [Run Data Orchestration Pipeline using Kestra (VM)](#run-orchestration-pipeline-using-kestra-vm)
 - [Build DBT models to prepare data for analytics (VM)](#build-dbt-transformation-models-in-the-vm)
-- [Future Improvements](#future-improvements)
 
-### Setup Google Cloud Environment and SSH access (Locally)
+## Setup Google Cloud Environment and SSH access (Locally)
 
 1. Create an account on Google's Cloud platform with your Google email ID. 
 
@@ -106,7 +105,7 @@
     Click on `Create`.
 
 
-### Setup Google Credentials and Github Project (VM)
+## Setup Google Credentials and Github Project (VM)
 
 1. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) This needs to be done **locally**, not from inside the VM. 
 
@@ -128,7 +127,7 @@
     cd "GHG-Emissions-Analytics-Pipeline"
     ```
 
-### Install Applications (VM)
+## Install Applications (VM)
 
 1. Update the below variables in the `GHG-Emissions-Analytics-Pipeline/.env` file according to your project specifications (if you've chosen to set different values for the VM name, and GCP Project ID). If you choose to keep the same variable values as the project to avoid confusion, let the environment variables be as is. But **remember to update the PROJECT_LOCATION as it is specific to where your account is created**
 
@@ -182,7 +181,7 @@
 
 7. Run `pip install -r requirements.txt` to install necessary libraries and packages.
 
-### Provision Infrastructure using Terraform (VM) 
+## Provision Infrastructure using Terraform (VM) 
 
 1. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
 
@@ -206,7 +205,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
 6. Run `terraform apply`
 
-### Run Kestra using Docker 
+## Run Kestra using Docker 
 
 1. cd to `Kestra` folder
 
@@ -227,9 +226,9 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
 > Note: To access Kestra UI, you can forward port `8080` from your vscode. It will open your browser at `https://localhost:8080`.
  
-### Run Orchestration Pipeline using Kestra (VM)
+## Run Orchestration Pipeline using Kestra (VM)
 
-#### What does Kestra do?
+### What does Kestra do?
 
 - Set GCP Variables and Credentials  **(gcp_kv.yml)**
     - Define **Google Cloud Storage (GCS) bucket**, **Dataproc cluster**, and **BigQuery datasets** as key-value pairs.  
@@ -252,7 +251,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
     > Note: This may take up to 2-3 mins
 
-### Build DBT transformation Models in the VM
+## Build DBT transformation Models in the VM
 
 1. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
 
@@ -272,6 +271,6 @@ pip install dbt-core dbt-bigquery
 
 6. Run `dbt build -t prod`
 
-### Build Dashboard for Analysis
+## Build Dashboard for Analysis
 
 You can source data from the `Analytics` dataset in BigQuery into your desired data visualization tool. I have used Power BI in this project. 
