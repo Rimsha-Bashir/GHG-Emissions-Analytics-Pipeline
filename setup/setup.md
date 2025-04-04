@@ -192,7 +192,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
 6. Run `terraform apply`
 
-## Run Kestra using Docker 
+## Run Kestra using Docker (VM)
 
 1. cd to `Kestra` folder
 
@@ -215,7 +215,8 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
  
 ## Run Orchestration Pipeline using Kestra (VM)
 
-### What does Kestra do?
+<details> 
+<summary> What does Kestra do? </summary>
 
 - Set GCP Variables and Credentials  **(gcp_kv.yml)**
     - Define **Google Cloud Storage (GCS) bucket**, **Dataproc cluster**, and **BigQuery datasets** as key-value pairs.  
@@ -224,11 +225,12 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 - Data Ingestion Flow **(gcp_upload.yml)**
     - Upload raw emissions data into `GCS bucket - ghg-bucket` for further processing.   
 
-- Data Transformat_ion with Dataproc and PySpark  **(gcp_spark_bq.yml)**
+- Data Transformation with Dataproc and PySpark  **(gcp_spark_bq.yml)**
     - Copy `scripts/transform_ghg_data.py` into `ghg-bucket`
     - Submit a job to `dataproc cluster` to process raw data using `PySpark`.  
     - Perform `data cleansing` and `transformations`.  
     - Store the transformed data into `BigQuery - Staging` for further analysis.  
+</details>
 
 1. Update `kestra/gcp_kv.yml` according to your project specifications. Check the file [gcp_kv.yml](../kestra/gcp_kv.yml) for comments.
 
@@ -238,7 +240,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
     > Note: This may take up to 2-3 mins
 
-## Build DBT transformation Models in the VM
+## Build DBT transformation Models (VM)
 
 1. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
 
