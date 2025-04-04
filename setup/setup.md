@@ -246,14 +246,13 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
     - Perform `data cleansing` and `transformations`.  
     - Store the transformed data into `BigQuery - Staging` for further analysis.  
 
-1. Update `gcp_kv.yml` according to your project specifications. Check the file [gcp_kv.yml](../kestra/gcp_kv.yml) for comments.
+1. Update `kestra/gcp_kv.yml` according to your project specifications. Check the file [gcp_kv.yml](../kestra/gcp_kv.yml) for comments.
 
 2. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
 
-3. Run `./execute_all_flows.sh`. 
+3. Run `./execute_all_flows.sh`. Upon completion, you should see the message `All flows executed successfully!✅`.
 
-> Note: Kestra UI is running on port 8080, you can forward the port (if using Remote-SSH in vscode) to view execution details, but they will also be printed directly in the terminal when the sh file runs.
-
+    > Note: This may take up to 2-3 mins
 
 ### Build DBT transformation Models in the VM
 
@@ -283,4 +282,4 @@ You can source data from the `Analytics` dataset in BigQuery into your desired d
 ### Future Improvements
 
 - Implement CI/CD
-- Add Make file 
+- Add Make file
