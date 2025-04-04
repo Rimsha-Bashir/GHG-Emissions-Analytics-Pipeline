@@ -44,10 +44,10 @@ Greenhouse gases (GHGs), especially carbon dioxide (CO₂), are major contributo
 This project aims to automate the ingestion, processing, and analysis of CO₂ & GHG emissions data to provide actionable insights for climate action, by examining trends in global CO₂ emissions over time to understand the scale and direction of the issue and identifying some key contributors to CO₂ emissions, such as countries and industries, and assess their roles in climate change.
 
 - Automate data ingestion of global emissions dataset using Kestra.
-- Process large-scale datasets efficiently with PySpark.
+- Process large-scale datasets efficiently with PySpark and Dataproc.
 - Store structured data in Google Cloud Storage (GCS) and BigQuery for analytics.
 - Transform raw data into insightful models using DBT.
-- Enable interactive visualizations with Power BI / Metabase.
+- Enable interactive visualizations with Power BI.
 
 ## Data Source
 
