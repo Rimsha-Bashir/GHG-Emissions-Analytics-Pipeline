@@ -147,13 +147,11 @@
 
     ```bash
 
-    chmod +x setup.sh 
-    ./setup.sh
+        chmod +x setup.sh 
+        ./setup.sh
 
     ```
     You should see the message `Setup completed successfully! 🎉` after the script has run successfully. 
-
-    Then run `newgrp docker` 
 
     This script will perform the below tasks:
 
@@ -164,17 +162,17 @@
     - Activate and authenticate Google Application Credentials 
     - Set environment paths necessary is `.bashrc`
 
-15. Run `pip install -r requirements.txt` to install necessary libraries and packages.
-
-16. **!! Logout of the VM or Open a new shell so your group membership for Docker is re-evaluated !!**
+15. **!! Logout of the VM or Open a new shell so your group membership for Docker is re-evaluated !!**
 
     ```bash
     logout ghg-capstone
     ```
-    or if you're using VScode, (Remote-SSH), just open another shell terminal and run the subsequent commands from there. 
-    
-    > Note: To check if you're added to docker group, run `groups`, and your should see 
-    > your username on the list and `docker`. 
+    or if you're using VScode, (Remote-SSH), just open another shell terminal/ run `exit` command. 
+
+16. In the new terminal, run `newgrp docker`
+
+> Note: To check if you're added to docker group, run `groups`, and your should see 
+> your `username` and `docker`, both on the list. 
 
 17. To check if the installations were successful, run 
 
@@ -183,10 +181,11 @@
     - `echo $PYTHONPATH`
     - `terraform --version`
 
+18. Run `pip install -r requirements.txt` to install necessary libraries and packages.
 
 ### Provision Infrastructure using Terraform (VM) 
 
-18. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
+19. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
 
 ```
 TF_VAR_project="ghg-capstone"
@@ -195,18 +194,18 @@ TF_VAR_location="EU"
 
 ```
 
-19. cd to `terraform` directory
+20. cd to `terraform` directory
 
-20. Run `terraform init` to initialize terraform backend. 
+21. Run `terraform init` to initialize terraform backend. 
 
-21. Run the below command to export .env variables as terraform variables. 
+22. Run the below command to export .env variables as terraform variables. 
 
 ```
 export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 ``` 
-22. Run `terraform plan`
+23. Run `terraform plan`
 
-23. Run `terraform apply`
+24. Run `terraform apply`
 
  
 ### Run Orchestration Pipeline using Kestra (VM)
@@ -227,7 +226,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
     - Store the transformed data into `BigQuery - Staging` for further analysis.  
 
 
-24. Update values in `kestra/.env`. 
+25. Update values in `kestra/.env`. 
 
     ```
     KESTRA_PORT="8080"              # don't change port number unless there's a conflict with another app running on the same port, 
@@ -240,18 +239,18 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
     **Remember to update VM_IP value to reflect your VM's external IP and KESTRA_EMAIL as your email address**
 
-25. Update `gcp_kv.yml` accordingly.
+26. Update `gcp_kv.yml` accordingly.
 
-26. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
+27. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
 
-27. Run `./execute_all_flows.sh`. 
+28. Run `./execute_all_flows.sh`. 
 
 > Note: Kestra UI is running on port 8080, you can forward the port (if using Remote-SSH in vscode) to view execution details, but they will also be printed directly in the terminal when the sh file runs.
 
 
 ### Build DBT transformation Models in the VM
 
-28. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
+29. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
 
 ```bash
 python -m venv dbt-env
@@ -259,15 +258,15 @@ source dbt-env/bin/activate
 pip install dbt-core dbt-bigquery
 ```
 
-29. cd to `dbt_project` and update `profiles.yml` as needed.
+30. cd to `dbt_project` and update `profiles.yml` as needed.
 
-30. Run `dbt debug`
+31. Run `dbt debug`
 
-31. Run `dbt deps`
+32. Run `dbt deps`
 
-32. Run `dbt build`
+33. Run `dbt build`
 
-33. Run `dbt build -t prod`
+34. Run `dbt build -t prod`
 
 ### Build Dashboard for Analysis
 
