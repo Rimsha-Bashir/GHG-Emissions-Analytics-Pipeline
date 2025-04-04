@@ -99,6 +99,7 @@ An analysis of temperature change due to Greenhouse gas emissions since pre-indu
 ![Page-4](./images/dashboard-pg4.PNG)
 
 
+You can view a preview of this dashboard in my novypro account, [here](https://project.novypro.com/oRqeXa).
 
 ## Instructions to Reproduce
 
