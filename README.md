@@ -13,6 +13,7 @@
 - [DBT Lineage Graph](#dbt-lineage-view)
 - [Dashboard](#dashboard)
 - [Instructions to Reproduce](#instructions-to-reproduce)
+- [Future Improvements](#future-improvements)
 - [Acknowledgment](#acknowledgement)
 
 
@@ -104,7 +105,12 @@ You can view a preview of this dashboard in my novypro account, [here](https://p
 
 ## Instructions to Reproduce
 
-Steps to reproduce this end to end pipeline has been documented in [setup.md](./setup/setup.md). 
+Steps to reproduce this end-to-end pipeline has been documented in [setup.md](./setup/setup.md). 
+
+### Future Improvements
+
+- Implement CI/CD
+- Add Make file
 
 ## Acknowledgement
 

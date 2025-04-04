@@ -275,9 +275,3 @@ pip install dbt-core dbt-bigquery
 ### Build Dashboard for Analysis
 
 You can source data from the `Analytics` dataset in BigQuery into your desired data visualization tool. I have used Power BI in this project. 
-
-
-### Future Improvements
-
-- Implement CI/CD
-- Add Make file
