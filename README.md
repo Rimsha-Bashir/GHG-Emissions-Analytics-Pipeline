@@ -107,7 +107,7 @@ You can view a preview of this dashboard in my novypro account, [here](https://p
 
 Steps to reproduce this end-to-end pipeline has been documented in [setup.md](./setup/setup.md). 
 
-### Future Improvements
+## Future Improvements
 
 - Implement CI/CD
 - Add Make file
