@@ -24,10 +24,6 @@
 
     ![sa-permissions](../images/permissions.png) 
 
-    here, 
-
-    ![sa-creation](../images/step1.2.PNG)
-
     Click on `Done` after assigning the roles. The service Account will now be created. 
 
 5. Click on the three dots under `Actions` for the created Service Account and select `Manage keys`.
@@ -161,7 +157,7 @@
     - Set environment paths necessary is `.bashrc`
     - Install packages from requirements.txt 
 
-4. To check if the installations were successful, run 
+4. To check if the installations were successful, you can run:
 
     - `conda --version`
     - `docker run hello-world` & `docker-compose --version`
