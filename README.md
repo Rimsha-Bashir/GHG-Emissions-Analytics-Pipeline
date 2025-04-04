@@ -116,4 +116,4 @@ Steps to reproduce this end-to-end pipeline has been documented in [setup.md](./
 
 This is a capstone project developed as a part of **Data Engineering ZoomCamp** course. 
 
-A huge thanks to the [DataTalks.Club](https://datatalks.club/) team and instructors for a great learning experience!
+A huge thanks to the [DataTalks.Club](https://github.com/DataTalksClub) team and instructors for a great learning experience!
