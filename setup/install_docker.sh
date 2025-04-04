@@ -24,7 +24,6 @@ fi
 
 # Add the current user to the docker group
 sudo gpasswd -a "$USER" docker
-newgrp docker
 
 echo "Remember to logout later so your group membership is re-evaluated."
 
