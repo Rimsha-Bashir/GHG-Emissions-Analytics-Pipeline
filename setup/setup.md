@@ -133,13 +133,11 @@
 1. Update the below variables in the `GHG-Emissions-Analytics-Pipeline/.env` file according to your project specifications (if you've chosen to set different values for the VM name, and GCP Project ID). If you choose to keep the same variable values as the project to avoid confusion, let the environment variables be as is. But **remember to update the PROJECT_LOCATION as it is specific to where your account is created**
 
     ```
-
     PROJECT_ID="ghg-capstone"
     VM_NAME="ghg-capstone-vm"
-    PROJECT_LOCATION="europe-west1"
+    PROJECT_LOCATION="europe-west1"             #todo
     KEY_FILENAME="ghg-creds.json"
     KEY_PATH="$HOME/.gc/${KEY_FILENAME}"
-
     ```
 
 2. cd to the `setup` folder in the repo.  
@@ -217,11 +215,11 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
     ```
     KESTRA_PORT="8080"              # don't change port number unless there's a conflict with another app running on the same port, 
                                     # and if that's the case, update here and in the docker-compose file as well. 
-    VM_IP="a.b.c.d"                         #todo
-    KESTRA_EMAIL="youremailid@abc.com"      #todo
+    VM_IP="your-vms-external-ip-address"        #todo
+    KESTRA_EMAIL="youremailid@xyz.com"          #todo
     KESTRA_PASSWORD="kestra"
-    NAMESPACE="ghg_project"                 # don't change
-    ```
+    NAMESPACE="ghg_project"                     # don't change
+    ```                          
 
     **Remember to update VM_IP value to reflect your VM's external IP and KESTRA_EMAIL as your email address**
 

@@ -13,6 +13,7 @@
 - [DBT Lineage Graph](#dbt-lineage-view)
 - [Dashboard](#dashboard)
 - [Instructions to Reproduce](#instructions-to-reproduce)
+- [Acknowledgment](#acknowledgement)
 
 
 ## Overview
