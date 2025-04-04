@@ -6,7 +6,7 @@ tasks:
     type: io.kestra.plugin.core.kv.Set
     key: GCP_PROJECT_ID
     kvType: STRING
-    value: ghg-capstone #TODO - Add your project id, if diff.
+    value: ghg-capstone 
 
   - id: gcp_location
     type: io.kestra.plugin.core.kv.Set
