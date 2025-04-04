@@ -216,7 +216,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 ## Run Orchestration Pipeline using Kestra (VM)
 
 <details> 
-<summary> What does Kestra do? </summary>
+<summary> What does Kestra do? Expand to understand Kestra flows running here!</summary>
 
 - Set GCP Variables and Credentials  **(gcp_kv.yml)**
     - Define **Google Cloud Storage (GCS) bucket**, **Dataproc cluster**, and **BigQuery datasets** as key-value pairs.  
