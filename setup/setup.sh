@@ -37,6 +37,11 @@ bash "${CURR_DIR}/install_spark.sh"
 echo "Setting service account credentials..."
 bash "${CURR_DIR}/set_credentials.sh"
 
+cd .. 
+
+echo -e "\n\nInstalling packages and libraries from requirements.txt..."
+pip install -r requirements.txt
+
 echo "Setup completed successfully! 🎉"
 
 newgrp docker

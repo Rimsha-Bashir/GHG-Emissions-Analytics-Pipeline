@@ -159,27 +159,14 @@
     - Install Terraform 
     - Activate and authenticate Google Application Credentials 
     - Set environment paths necessary is `.bashrc`
+    - Install packages from requirements.txt 
 
-4. **!! Logout of the VM or Open a new shell so your group membership for Docker is re-evaluated !!**
-
-    ```bash
-    logout ghg-capstone
-    ```
-    or if you're using VScode, (Remote-SSH), just open another shell terminal/ run `exit` command. 
-
-5. In the new terminal, run `newgrp docker`
-
-> Note: To check if you're added to docker group, run `groups`, and your should see 
-> your `username` and `docker`, both on the list. 
-
-6. To check if the installations were successful, run 
+4. To check if the installations were successful, run 
 
     - `conda --version`
     - `docker run hello-world` & `docker-compose --version`
     - `echo $PYTHONPATH`
     - `terraform --version`
-
-7. Run `pip install -r requirements.txt` to install necessary libraries and packages.
 
 ## Provision Infrastructure using Terraform (VM) 
 
@@ -198,7 +185,7 @@ TF_VAR_location="EU"
 
 4. Run the below command to export .env variables as terraform variables. 
 
-```
+```bash
 export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 ``` 
 5. Run `terraform plan`
@@ -209,7 +196,7 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
 1. cd to `Kestra` folder
 
-2. Update values in `kestra/.env`. 
+2. Update the below variable values in `kestra/.env`. 
 
     ```
     KESTRA_PORT="8080"              # don't change port number unless there's a conflict with another app running on the same port, 
