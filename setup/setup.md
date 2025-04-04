@@ -108,7 +108,7 @@
 
 ### Setup Google Credentials and Github Project (VM)
 
-9. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) This needs to be done **locally**, not from inside the VM. 
+1. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) This needs to be done **locally**, not from inside the VM. 
 
     - In your gitbash terminal, cd to `.gc` directory where you've saved your `ghg-creds.json` file.
     - Then, 
@@ -119,9 +119,9 @@
 
     - Alternatively, you can run `scp ~/.gc/ghg-creds.json <username>@ghg-capstone-vm:~/.gc/`
 
-10. Connect to your VM by running `ssh ghg-capstone-vm` in gitbash/ or click on `CTRL + SHIFT + P` and select `Remote-SSH` in VScode (To do this, install the `Remote-SSH` extension in VScode). 
+2. Connect to your VM by running `ssh ghg-capstone-vm` in gitbash/ or click on `CTRL + SHIFT + P` and select `Remote-SSH` in VScode (To do this, install the `Remote-SSH` extension in VScode). 
 
-11. In the VM, clone this repo and cd to it. 
+3. In the VM, clone this repo and cd to it. 
 
     ```
     git clone https://github.com/Rimsha-Bashir/GHG-Emissions-Analytics-Pipeline.git 
@@ -130,7 +130,7 @@
 
 ### Install Applications (VM)
 
-12. Update the below variables in the `GHG-Emissions-Analytics-Pipeline/.env` file according to your project specifications (if you've chosen to set different values for the VM name, and GCP Project ID). If you choose to keep the same variable values as the project to avoid confusion, let the environment variables be as is. But **remember to update the PROJECT_LOCATION as it is specific to where your account is created**
+1. Update the below variables in the `GHG-Emissions-Analytics-Pipeline/.env` file according to your project specifications (if you've chosen to set different values for the VM name, and GCP Project ID). If you choose to keep the same variable values as the project to avoid confusion, let the environment variables be as is. But **remember to update the PROJECT_LOCATION as it is specific to where your account is created**
 
     ```
 
@@ -142,9 +142,9 @@
 
     ```
 
-13. cd to the `setup` folder in the repo.  
+2. cd to the `setup` folder in the repo.  
 
-14. Run the below commands
+3. Run the below commands
 
     ```bash
 
@@ -163,30 +163,30 @@
     - Activate and authenticate Google Application Credentials 
     - Set environment paths necessary is `.bashrc`
 
-15. **!! Logout of the VM or Open a new shell so your group membership for Docker is re-evaluated !!**
+4. **!! Logout of the VM or Open a new shell so your group membership for Docker is re-evaluated !!**
 
     ```bash
     logout ghg-capstone
     ```
     or if you're using VScode, (Remote-SSH), just open another shell terminal/ run `exit` command. 
 
-16. In the new terminal, run `newgrp docker`
+5. In the new terminal, run `newgrp docker`
 
 > Note: To check if you're added to docker group, run `groups`, and your should see 
 > your `username` and `docker`, both on the list. 
 
-17. To check if the installations were successful, run 
+6. To check if the installations were successful, run 
 
     - `conda --version`
     - `docker run hello-world` & `docker-compose --version`
     - `echo $PYTHONPATH`
     - `terraform --version`
 
-18. Run `pip install -r requirements.txt` to install necessary libraries and packages.
+7. Run `pip install -r requirements.txt` to install necessary libraries and packages.
 
 ### Provision Infrastructure using Terraform (VM) 
 
-19. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
+1. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
 
 ```
 TF_VAR_project="ghg-capstone"
@@ -195,24 +195,37 @@ TF_VAR_location="EU"
 
 ```
 
-20. cd to `terraform` directory
+2. cd to `terraform` directory
 
-21. Run `terraform init` to initialize terraform backend. 
+3. Run `terraform init` to initialize terraform backend. 
 
-22. Run the below command to export .env variables as terraform variables. 
+4. Run the below command to export .env variables as terraform variables. 
 
 ```
 export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 ``` 
-23. Run `terraform plan`
+5. Run `terraform plan`
 
-24. Run `terraform apply`
+6. Run `terraform apply`
 
 ### Run Kestra using Docker 
 
 1. cd to `Kestra` folder
 
-3. Run `docker-compose up` 
+2. Update values in `kestra/.env`. 
+
+    ```
+    KESTRA_PORT="8080"              # don't change port number unless there's a conflict with another app running on the same port, 
+                                    # and if that's the case, update here and in the docker-compose file as well. 
+    VM_IP="a.b.c.d"                         #todo
+    KESTRA_EMAIL="youremailid@abc.com"      #todo
+    KESTRA_PASSWORD="kestra"
+    NAMESPACE="ghg_project"                 # don't change
+    ```
+
+    **Remember to update VM_IP value to reflect your VM's external IP and KESTRA_EMAIL as your email address**
+
+3. Run `docker-compose up -d` 
 
 > Note: To access Kestra UI, you can forward port `8080` from your vscode. It will open your browser at `https://localhost:8080`.
  
@@ -233,32 +246,18 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
     - Perform `data cleansing` and `transformations`.  
     - Store the transformed data into `BigQuery - Staging` for further analysis.  
 
+1. Update `gcp_kv.yml` according to your project specifications. Check the file [gcp_kv.yml](../kestra/gcp_kv.yml) for comments.
 
-25. Update values in `kestra/.env`. 
+2. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
 
-    ```
-    KESTRA_PORT="8080"              # don't change port number unless there's a conflict with another app running on the same port, 
-                                    # and if that's the case, update here and in the docker-compose file as well. 
-    VM_IP="a.b.c.d"                         #todo
-    KESTRA_EMAIL="youremailid@abc.com"      #todo
-    KESTRA_PASSWORD="kestra"
-    NAMESPACE="ghg_project"                 # don't change
-    ```
-
-    **Remember to update VM_IP value to reflect your VM's external IP and KESTRA_EMAIL as your email address**
-
-26. Update `gcp_kv.yml` accordingly.
-
-27. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
-
-28. Run `./execute_all_flows.sh`. 
+3. Run `./execute_all_flows.sh`. 
 
 > Note: Kestra UI is running on port 8080, you can forward the port (if using Remote-SSH in vscode) to view execution details, but they will also be printed directly in the terminal when the sh file runs.
 
 
 ### Build DBT transformation Models in the VM
 
-29. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
+1. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
 
 ```bash
 python -m venv dbt-env
@@ -266,15 +265,15 @@ source dbt-env/bin/activate
 pip install dbt-core dbt-bigquery
 ```
 
-30. cd to `dbt_project` and update `profiles.yml` as needed.
+2. cd to `dbt_project` and update `profiles.yml` as needed.
 
-31. Run `dbt debug`
+3. Run `dbt debug`
 
-32. Run `dbt deps`
+4. Run `dbt deps`
 
-33. Run `dbt build`
+5. Run `dbt build`
 
-34. Run `dbt build -t prod`
+6. Run `dbt build -t prod`
 
 ### Build Dashboard for Analysis
 
