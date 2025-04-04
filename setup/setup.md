@@ -248,13 +248,9 @@ pip install dbt-core dbt-bigquery
 
 2. cd to `dbt_project` and update `profiles.yml` as needed.
 
-3. Run `dbt debug`
+3. Run `chmod +x dbt-run.sh`
 
-4. Run `dbt deps`
-
-5. Run `dbt build`
-
-6. Run `dbt build -t prod`
+4. Run `./dbt-run.sh` 
 
 ## Build Dashboard for Analysis
 
