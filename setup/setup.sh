@@ -37,5 +37,6 @@ bash "${CURR_DIR}/install_spark.sh"
 echo "Setting service account credentials..."
 bash "${CURR_DIR}/set_credentials.sh"
 
-
 echo "Setup completed successfully! 🎉"
+
+newgrp docker
