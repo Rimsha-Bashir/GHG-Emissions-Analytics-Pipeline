@@ -4,6 +4,7 @@
 - [Setup Google Credentials and Github Project (VM)](#setup-google-credentials-and-github-project-vm)
 - [Install Applications (VM)](#install-applications-vm)
 - [Provision Infratructure using Terraform (VM)](#provision-infrastructure-using-terraform-vm)
+- [Run Kestra using Docker (VM)](#run-kestra-using-docker)
 - [Run Data Orchestration Pipeline using Kestra (VM)](#run-orchestration-pipeline-using-kestra-vm)
 - [Build DBT models to prepare data for analytics (VM)](#build-dbt-transformation-models-in-the-vm)
 - [Future Improvements](#future-improvements)
@@ -207,6 +208,13 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
 24. Run `terraform apply`
 
+### Run Kestra using Docker 
+
+1. cd to `Kestra` folder
+
+3. Run `docker-compose up` 
+
+> Note: To access Kestra UI, you can forward port `8080` from your vscode. It will open your browser at `https://localhost:8080`.
  
 ### Run Orchestration Pipeline using Kestra (VM)
 
