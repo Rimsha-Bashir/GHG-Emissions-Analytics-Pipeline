@@ -105,3 +105,8 @@ You can view a preview of this dashboard in my novypro account, [here](https://p
 
 Steps to reproduce this end to end pipeline has been documented in [setup.md](./setup/setup.md). 
 
+## Acknowledgement
+
+This is a capstone project developed as a part of **Data Engineering ZoomCamp** course. 
+
+A huge thanks to the [DataTalks.Club](https://datatalks.club/) team and instructors for a great learning experience!
