@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source .env
+source ../.env
+
 CURR_DIR="$(dirname "$0")"
 
 # Update and install required packages
@@ -23,7 +24,7 @@ bash "${CURR_DIR}/install_anaconda.sh"
 echo "Installing Docker..."
 bash "${CURR_DIR}/install_docker.sh"
 
-Installing Terraform 
+# Installing Terraform 
 echo "Installing Terraform..."
 bash "${CURR_DIR}/install_terraform.sh"
 

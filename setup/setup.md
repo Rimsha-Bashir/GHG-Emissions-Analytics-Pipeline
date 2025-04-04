@@ -66,15 +66,17 @@
     ![vm-creation](../images/step1.4.PNG)
 
     - Machine Configs: 
-        - instance name: `ghg-capstone-vm`
-        - region: `europe-west1 (belgium)` 
-        - machine type: `e2-standard-4 (4 vCPU, 2 core, 16 GB memory)`
-    - OS & Storage:
+        - Instance name: `ghg-capstone-vm`
+        - Region: `europe-west1 (belgium)` 
+        - Machine type: `e2-standard-4 (4 vCPU, 2 core, 16 GB memory)`
+    - OS & Storage: (Click on `change`)
         - OS: `Ubuntu`
-        - version: `Ubuntu 20.04 LTS`
-        - size: `30GB`
-    - Identity & API access:
-        - select `scope`-`allow default access` and `firewall`-`allow https traffic`
+        - Version: `Ubuntu 20.04 LTS`
+        - Size: `30GB`
+    - Under Security > Identity & API access:
+        - Select `Access scopes`-`allow default`
+    - Under Networking, Firewall:  
+        - Check `Allow https traffic`
 
     
     - After the VM is created, copy the `External IP` address. 
@@ -93,7 +95,7 @@
     ```
 
     - Paste the copied VM External IP address here, and set the user as per the `username` entered in `Step 6` while creating the SSH key.
-    - Now, you can connect to your VM by running `ssh ghg-capstone-vm`.  
+    - **Now, you can connect to your VM by running `ssh ghg-capstone-vm`.**
 
 
 8. Create a firewall rule to allow access to `Kestra UI` at port 8080. 
@@ -105,7 +107,7 @@
 
 ### Setup Google Credentials and Github Project (VM)
 
-9. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) 
+9. Add the service account keys created in `Step 5` to the VM. (It's convenient to make sure your json file is saved in a Home dir location.) This needs to be done **locally**, not from inside the VM. 
 
     - In your gitbash terminal, cd to `.gc` directory where you've saved your `ghg-creds.json` file.
     - Then, 
@@ -125,12 +127,9 @@
     cd "GHG-Emissions-Analytics-Pipeline"
     ```
 
-12. Run `pip install -r requirements.txt` to install necessary libraries and packages.
-
-
 ### Install Applications (VM)
 
-12. Update the below variables in the `.env` file according to your project specifications (if you've chosen to set different values for the VM name, and GCP Project ID). If you choose to keep the same variable values as the project to avoid confusion, let the environment variables be as is. But **remember to update the PROJECT_LOCATION as it is specific to where your account is created**
+12. Update the below variables in the `GHG-Emissions-Analytics-Pipeline/.env` file according to your project specifications (if you've chosen to set different values for the VM name, and GCP Project ID). If you choose to keep the same variable values as the project to avoid confusion, let the environment variables be as is. But **remember to update the PROJECT_LOCATION as it is specific to where your account is created**
 
     ```
 
@@ -152,6 +151,9 @@
     ./setup.sh
 
     ```
+    You should see the message `Setup completed successfully! 🎉` after the script has run successfully. 
+
+    Then run `newgrp docker` 
 
     This script will perform the below tasks:
 
@@ -162,15 +164,29 @@
     - Activate and authenticate Google Application Credentials 
     - Set environment paths necessary is `.bashrc`
 
-15. **!! Logout of the VM so your group membership for Docker is re-evaluated !!**
+15. Run `pip install -r requirements.txt` to install necessary libraries and packages.
+
+16. **!! Logout of the VM or Open a new shell so your group membership for Docker is re-evaluated !!**
 
     ```bash
     logout ghg-capstone
     ```
+    or if you're using VScode, (Remote-SSH), just open another shell terminal and run the subsequent commands from there. 
+    
+    > Note: To check if you're added to docker group, run `groups`, and your should see 
+    > your username on the list and `docker`. 
+
+17. To check if the installations were successful, run 
+
+    - `conda --version`
+    - `docker run hello-world` & `docker-compose --version`
+    - `echo $PYTHONPATH`
+    - `terraform --version`
+
 
 ### Provision Infrastructure using Terraform (VM) 
 
-16. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
+18. Update terraform variables in `~/.env` file. **Ensure that the values corresponding to TF_VAR_project, TF_VAR_region, and TF_VAR_location are correctly set as per your VM configurations!**
 
 ```
 TF_VAR_project="ghg-capstone"
@@ -179,37 +195,39 @@ TF_VAR_location="EU"
 
 ```
 
-17. cd to `terraform` directory
+19. cd to `terraform` directory
 
-18. Run `terraform init` to initialize terraform backend. 
+20. Run `terraform init` to initialize terraform backend. 
 
-19. Run the below command to export .env variables as terraform variables. 
+21. Run the below command to export .env variables as terraform variables. 
 
 ```
 export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 ``` 
-20. Run `terraform plan`
+22. Run `terraform plan`
 
-21. Run `terraform apply`
+23. Run `terraform apply`
 
  
 ### Run Orchestration Pipeline using Kestra (VM)
 
-- Set GCP Variables and Credentials  (gcp_kv.yml)
+#### What does Kestra do?
+
+- Set GCP Variables and Credentials  **(gcp_kv.yml)**
     - Define **Google Cloud Storage (GCS) bucket**, **Dataproc cluster**, and **BigQuery datasets** as key-value pairs.  
     - Store **service account credentials** securely for authentication and authorization.  
 
-- Data Ingestion Flow (gcp_upload.yml)
+- Data Ingestion Flow **(gcp_upload.yml)**
     - Upload raw emissions data into `GCS bucket - ghg-bucket` for further processing.   
 
-- Data Transformat_ion with Dataproc and PySpark  (gcp_spark_bq.yml)
+- Data Transformat_ion with Dataproc and PySpark  **(gcp_spark_bq.yml)**
     - Copy `scripts/transform_ghg_data.py` into `ghg-bucket`
     - Submit a job to `dataproc cluster` to process raw data using `PySpark`.  
     - Perform `data cleansing` and `transformations`.  
     - Store the transformed data into `BigQuery - Staging` for further analysis.  
 
 
-22. Update values in `kestra/.env`. 
+24. Update values in `kestra/.env`. 
 
     ```
     KESTRA_PORT="8080"              # don't change port number unless there's a conflict with another app running on the same port, 
@@ -222,18 +240,18 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
 
     **Remember to update VM_IP value to reflect your VM's external IP and KESTRA_EMAIL as your email address**
 
-23. Update `gcp_kv.yml` accordingly.
+25. Update `gcp_kv.yml` accordingly.
 
-24. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
+26. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))
 
-25. Run `./execute_all_flows.sh`. 
+27. Run `./execute_all_flows.sh`. 
 
 > Note: Kestra UI is running on port 8080, you can forward the port (if using Remote-SSH in vscode) to view execution details, but they will also be printed directly in the terminal when the sh file runs.
 
 
 ### Build DBT transformation Models in the VM
 
-26. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
+28. Run the below commands to create a venv and install `dbt-core` and `dbt-bigquery`
 
 ```bash
 python -m venv dbt-env
@@ -241,19 +259,19 @@ source dbt-env/bin/activate
 pip install dbt-core dbt-bigquery
 ```
 
-27. cd to `dbt_project` and update `profiles.yml` as needed.
+29. cd to `dbt_project` and update `profiles.yml` as needed.
 
-28. Run `dbt debug`
+30. Run `dbt debug`
 
-29. Run `dbt deps`
+31. Run `dbt deps`
 
-30. Run `dbt build`
+32. Run `dbt build`
 
-31. Run `dbt build -t prod`
+33. Run `dbt build -t prod`
 
 ### Build Dashboard for Analysis
 
-You can source data from the `Analytics` dataset in BigQuery into your desired data visualization tool. I have used Power BI in the project. 
+You can source data from the `Analytics` dataset in BigQuery into your desired data visualization tool. I have used Power BI in this project. 
 
 
 ### Future Improvements
