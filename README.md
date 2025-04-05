@@ -84,8 +84,6 @@ This is an overview of how the end-to-end analytics pipeline processes and analy
 
 ### Flow Summary
 
-### Flow Summary
-
 1. **Infrastructure Provisioning with Terraform**  
    - GCP resources including the **Cloud Storage bucket** (`ghg-bucket`), **Dataproc cluster** (`ghg-dataproc`), and **BigQuery datasets** (`Staging` and `Analytics`) are provisioned using **Terraform**.
 
@@ -93,7 +91,7 @@ This is an overview of how the end-to-end analytics pipeline processes and analy
    - Raw GHG emissions data is sourced from the [OWID data repository](https://github.com/owid/co2-data) and uploaded to the **GCS bucket** for processing.
 
 3. **Processing with PySpark (via Kestra + Dataproc)**  
-   - The L**PySpark** transformation script [transform_ghg_data.py](./scripts/transform_ghg_data.py) is uploaded to the **GCS bucket**.  
+   - The **PySpark** transformation script [transform_ghg_data.py](./scripts/transform_ghg_data.py) is uploaded to the **GCS bucket**.  
    - A **Dataproc job** is triggered to run the script, which defines the schema, cleans the data, and performs transformations.  
    - The processed data is then written to the **BigQuery `Staging` dataset**.
 
@@ -104,7 +102,7 @@ This is an overview of how the end-to-end analytics pipeline processes and analy
    - A **Power BI dashboard** connects to the **BigQuery `Analytics` dataset** to enable interactive reporting and exploration of emissions trends, temperature changes, and economic correlations.
 
 
-### What Kestra Does
+#### What Kestra Does
 
 Kestra orchestrates and automates the entire pipeline:
 
@@ -118,7 +116,7 @@ Kestra orchestrates and automates the entire pipeline:
   Submits a PySpark job to **Dataproc** to transform raw data and load the output into **BigQuery Staging**.
 
 
-### What dbt Does
+#### What dbt Does
 
 dbt manages the transformation of cleaned data in BigQuery:
 
