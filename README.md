@@ -102,7 +102,7 @@ This is an overview of how the end-to-end analytics pipeline processes and analy
    - A **Power BI dashboard** connects to the **BigQuery `Analytics` dataset** to enable interactive reporting and exploration of emissions trends, temperature changes, and economic correlations.
 
 
-### What Kestra Does
+### What does Kestra do?
 
 Kestra orchestrates and automates the entire pipeline:
 
@@ -116,7 +116,7 @@ Kestra orchestrates and automates the entire pipeline:
   Submits a PySpark job to **Dataproc** to transform raw data and load the output into **BigQuery Staging**.
 
 
-### What dbt Does
+### What does dbt do?
 
 dbt manages the transformation of cleaned data in BigQuery:
 
