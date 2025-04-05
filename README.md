@@ -37,6 +37,7 @@ Greenhouse gases (GHGs), especially carbon dioxide (CO₂), are major contributo
 
 - How have global CO₂ emissions changed over time?
 - Which countries and regions contribute the most to emissions?
+- How have Greenhouse gases contributed to the temperature change over time?
 - What sectors and sources drive emissions the most?
 - How do per-capita emissions compare across countries?
 
