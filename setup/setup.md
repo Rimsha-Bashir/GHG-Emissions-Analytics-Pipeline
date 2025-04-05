@@ -211,23 +211,6 @@ export $(grep -v '^#' $HOME/GHG-Emissions-Analytics-Pipeline/.env | xargs)
  
 ## Run Orchestration Pipeline using Kestra (VM)
 
-<details> 
-<summary> What does Kestra do? Expand to understand Kestra flows running here!</summary>
-
-- Set GCP Variables and Credentials  **(gcp_kv.yml)**
-    - Define **Google Cloud Storage (GCS) bucket**, **Dataproc cluster**, and **BigQuery datasets** as key-value pairs.  
-    - Store **service account credentials** securely for authentication and authorization.  
-
-- Data Ingestion Flow **(gcp_upload.yml)**
-    - Upload raw emissions data into `GCS bucket - ghg-bucket` for further processing.   
-
-- Data Transformation with Dataproc and PySpark  **(gcp_spark_bq.yml)**
-    - Copy `scripts/transform_ghg_data.py` into `ghg-bucket`
-    - Submit a job to `dataproc cluster` to process raw data using `PySpark`.  
-    - Perform `data cleansing` and `transformations`.  
-    - Store the transformed data into `BigQuery - Staging` for further analysis.  
-</details>
-
 1. Update `kestra/gcp_kv.yml` according to your project specifications. Check the file [gcp_kv.yml](../kestra/gcp_kv.yml) for comments.
 
 2. Run `chmod +x execute_all_flows.sh` (This script executes all the above sub-scripts (`check kestra/`))

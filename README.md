@@ -10,6 +10,7 @@
     - [Citation](#citation)
 - [Tech Stack](#tech-stack)
 - [Data Pipeline Architecture Diagram](#pipeline-architecture)
+- [Pipeline Overview](#pipeline-overview)
 - [DBT Lineage Graph](#dbt-lineage-view)
 - [Dashboard](#dashboard)
 - [Instructions to Reproduce](#instructions-to-reproduce)
@@ -75,6 +76,65 @@ Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas 
 ## Pipeline Architecture Diagram
 
 ![Arch Diagram](images/ghg_arch.drawio.svg)
+
+
+## Pipeline Overview
+
+This is an overview of how the end-to-end analytics pipeline processes and analyzes Greenhouse Gas (GHG) emissions data using **Terraform**, **Kestra**, **PySpark**, **dbt**, and **Google Cloud Platform (GCP)**.
+
+### Flow Summary
+
+### Flow Summary
+
+1. **Infrastructure Provisioning with Terraform**  
+   - GCP resources including the **Cloud Storage bucket** (`ghg-bucket`), **Dataproc cluster** (`ghg-dataproc`), and **BigQuery datasets** (`Staging` and `Analytics`) are provisioned using **Terraform**.
+
+2. **Data Upload (via Kestra)**  
+   - Raw GHG emissions data is sourced from the [OWID data repository](https://github.com/owid/co2-data) and uploaded to the **GCS bucket** for processing.
+
+3. **Processing with PySpark (via Kestra + Dataproc)**  
+   - The L**PySpark** transformation script [transform_ghg_data.py](./scripts/transform_ghg_data.py) is uploaded to the **GCS bucket**.  
+   - A **Dataproc job** is triggered to run the script, which defines the schema, cleans the data, and performs transformations.  
+   - The processed data is then written to the **BigQuery `Staging` dataset**.
+
+4. **Data Modeling with dbt**  
+   - **dbt** models transform the staging data into analytics-ready tables in the **BigQuery `Analytics` dataset**.
+
+5. **Visualization**  
+   - A **Power BI dashboard** connects to the **BigQuery `Analytics` dataset** to enable interactive reporting and exploration of emissions trends, temperature changes, and economic correlations.
+
+
+### What Kestra Does
+
+Kestra orchestrates and automates the entire pipeline:
+
+- **Configuration** (`gcp_kv.yml`):  
+  Sets up GCP environment variables, service credentials, and resource references (GCS bucket, Dataproc cluster, BigQuery datasets).
+
+- **Data Ingestion** (`gcp_upload.yml`):  
+  Uploads raw emissions data into the GCS bucket.
+
+- **Data Processing** (`gcp_spark_bq.yml`):  
+  Submits a PySpark job to **Dataproc** to transform raw data and load the output into **BigQuery Staging**.
+
+
+### What dbt Does
+
+dbt manages the transformation of cleaned data in BigQuery:
+
+- **Staging Models**  
+  - `stg_emissions.sql`: Selects relevant fields, calculates emissions per capita.  
+  - `stg_country.sql`: Extracts the latest GDP and population per country.
+
+- **Core Models**  
+  - `fact_emissions.sql`: Creates a partitioned and clustered emissions fact table.  
+  - `dim_country_info.sql`: Builds a dimension table with country-level info.  
+  - `annual_emissions.sql`: Aggregates total and per capita emissions by year.  
+  - `global_temp.sql`: Analyzes temperature trends linked to emissions.  
+  - `emissions_vs_econ.sql`: Compares GDP to CO₂ per capita emissions.
+
+Final outputs from dbt are stored in the **Analytics** dataset and used in Power BI dashboards.
+
 
 ## DBT Lineage View 
 
