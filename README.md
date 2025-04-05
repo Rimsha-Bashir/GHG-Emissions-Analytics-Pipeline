@@ -81,25 +81,28 @@ Hannah Ritchie, Pablo Rosado and Max Roser (2023) - “CO₂ and Greenhouse Gas 
 
 ## Pipeline Overview
 
-This is an overview of how the end-to-end analytics pipeline processes and analyzes Greenhouse Gas (GHG) emissions data using **Terraform**, **Kestra**, **PySpark**, **dbt**, and **Google Cloud Platform (GCP)**.
+This is an overview of how the end-to-end analytics pipeline processes and analyzes Greenhouse Gas (GHG) emissions data using **Terraform**, **Docker**, **Kestra**, **PySpark**, **dbt**, and **Google Cloud Platform (GCP)**.
 
 ### Flow Summary
 
 1. **Infrastructure Provisioning with Terraform**  
    - GCP resources including the **Cloud Storage bucket** (`ghg-bucket`), **Dataproc cluster** (`ghg-dataproc`), and **BigQuery datasets** (`Staging` and `Analytics`) are provisioned using **Terraform**.
 
-2. **Data Upload (via Kestra)**  
+2. **Docker Runs Kestra**  
+   - A Docker Compose setup runs an instance of **Kestra** to orchestrate the entire pipeline.
+
+3. **Data Upload (via Kestra)**  
    - Raw GHG emissions data is sourced from the [OWID data repository](https://github.com/owid/co2-data) and uploaded to the **GCS bucket** for processing.
 
-3. **Processing with PySpark (via Kestra + Dataproc)**  
+4. **Processing with PySpark (via Kestra + Dataproc)**  
    - The **PySpark** transformation script [transform_ghg_data.py](./scripts/transform_ghg_data.py) is uploaded to the **GCS bucket**.  
    - A **Dataproc job** is triggered to run the script, which defines the schema, cleans the data, and performs transformations.  
    - The processed data is then written to the **BigQuery `Staging` dataset**.
 
-4. **Data Modeling with dbt**  
+5. **Data Modeling with dbt**  
    - **dbt** models transform the staging data into analytics-ready tables in the **BigQuery `Analytics` dataset**.
 
-5. **Visualization**  
+6. **Visualization**  
    - A **Power BI dashboard** connects to the **BigQuery `Analytics` dataset** to enable interactive reporting and exploration of emissions trends, temperature changes, and economic correlations.
 
 
