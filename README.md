@@ -150,11 +150,11 @@ A high-level snapshot of total greenhouse gas (GHG) emissions, CO₂ emissions, 
 
 ![Page-1](./images/dashboard-pg1.PNG)
 
-A geographic breakdown of emissions, showing region-wise contributions, emission per capita, and regional growth trends over the years.
+A geographic and sector-wise breakdown of emissions, showing region-wise contributions, emission per capita, and regional growth trends over the years.
 
 ![Page-2](./images/dashboard-pg2.PNG)
 
-A source-wise breakdown of major contributors to CO2 emissions and an examination of emissions in relation to economic growth.
+An examination of emissions in relation to economic growth.
 
 ![Page-3](./images/dashboard-pg3.PNG)
 
@@ -162,8 +162,7 @@ An analysis of temperature change due to Greenhouse gas emissions since pre-indu
 
 ![Page-4](./images/dashboard-pg4.PNG)
 
-
-You can view a preview of this dashboard in my novypro account, [here](https://project.novypro.com/oRqeXa).
+You can view a preview of this dashboard in my Novypro account, [here](https://project.novypro.com/oRqeXa).
 
 ## Instructions to Reproduce
 
@@ -172,7 +171,7 @@ Steps to reproduce this end-to-end pipeline has been documented in [setup.md](./
 ## Future Improvements
 
 - Implement CI/CD
-- Add Make file
+- Add Makefile
 
 ## Acknowledgement
 
